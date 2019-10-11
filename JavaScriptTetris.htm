@@ -18,35 +18,14 @@
 		</style>
 	</head>
 	<body>
-		<script>
-			var userLanguage = window.navigator.userLanguage || window.navigator.language;
-
-			var STRING_NEXT = "";
-			var STRING_SCORE = "";
-			var STRING_GAMEOVER = "";
-
-			if (userLanguage.substring(0,2)=="es")
-				{
-				STRING_NEXT = "PR&Oacute;XIMA PIEZA";
-				STRING_SCORE = "PUNTAJE";
-				STRING_GAMEOVER = "JUEGO PERDIDO";
-				}
-				else
-				{
-				STRING_NEXT = "NEXT PIECE";
-				STRING_SCORE = "SCORE";
-				STRING_GAMEOVER = "GAME OVER";
-				}
-		</script>
-
 		<canvas class="gui_game"></canvas>
 		<div class="gui_reload"></div>
-		<div class="gui_gameover"><div class="gui_gameover_label"><script>document.write(STRING_GAMEOVER)</script></div></div>
+		<div class="gui_gameover"><div class="gui_gameover_label">&nbsp;&nbsp;&nbsp;</div></div>
 		<div class="gui_gamestatus">
-			<div class="gui_gamestatus_next_piece"><script>document.write(STRING_NEXT)</script></div>
+			<div class="gui_gamestatus_next_piece">&nbsp;&nbsp;&nbsp;</div>
 			<canvas class="gui_next"></canvas>
-			<div class="gui_gamestatus_score_label"><script>document.write(STRING_SCORE)</script></div>
-			<div class="gui_gamestatus_score_value">00000</div>
+			<div class="gui_gamestatus_score_label">&nbsp;&nbsp;&nbsp;</div>
+			<div class="gui_gamestatus_score_value">&nbsp;&nbsp;&nbsp;</div>
 		</div>
 
 		<script>
@@ -500,6 +479,33 @@
 				ctx.fillRect(x*dx, y*dy, dx, dy);
 				ctx.strokeRect(x*dx, y*dy, dx, dy)
 				}
+
+			//------------------------------------------------------------------------------------------------------
+			// SETTING THE LANGUAGE VALUES
+			//------------------------------------------------------------------------------------------------------
+
+			var userLanguage = window.navigator.userLanguage || window.navigator.language;
+
+			var STRING_NEXT = "";
+			var STRING_SCORE = "";
+			var STRING_GAMEOVER = "";
+
+			if (userLanguage.substring(0,2)=="es")
+				{
+				STRING_NEXT = "PR&Oacute;XIMA PIEZA";
+				STRING_SCORE = "PUNTAJE";
+				STRING_GAMEOVER = "JUEGO PERDIDO";
+				}
+				else
+				{
+				STRING_NEXT = "NEXT PIECE";
+				STRING_SCORE = "SCORE";
+				STRING_GAMEOVER = "GAME OVER";
+				}
+
+			document.getElementsByClassName("gui_gameover_label")[0].innerHTML = STRING_GAMEOVER;
+			document.getElementsByClassName("gui_gamestatus_next_piece")[0].innerHTML = STRING_NEXT;
+			document.getElementsByClassName("gui_gamestatus_score_label")[0].innerHTML = STRING_SCORE;
 
 			//------------------------------------------------------------------------------------------------------
 			// SETTING KEYDOWN AND RESIZING EVENTS
