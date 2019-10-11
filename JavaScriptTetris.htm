@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>JavaScript Tetris</title>
+		<style>
+			body{margin:0;padding:0;background-color:#282828}
+			#canvas{position:fixed;width:33%;height:100%;margin:0 auto;left:0;right:0;top:0;bottom:0;background-color:black}
+			#upcoming{width:170px;background-color:black;border-top:1px solid gray;border-bottom:1px solid gray}
+
+			#start{position:fixed;width:33%;z-index:999;height:100%;margin:0 auto;left:0;right:0;top:0;bottom:0;background:rgba(255,255,255,0.7);cursor:default;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+			#start span{position:absolute;height:100px;margin:auto 0;top:0;bottom:0;width:100%;text-align:center;font-family:Arial;font-size:30px}
+
+			.gui_reload{position:absolute;right:10px;top:10px;z-index:999;width:64px;height:64px;cursor:pointer;background-repeat:no-repeat;background-image:url("data:image/png;base64,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")}
+			.gui_reload:hover{filter:brightness(110%)}
+			.gui_container{position:fixed;left:10px;top:10px;width:170px;font-family:Arial;font-size:16px;text-align:center;color:white;background-color:#b9180b;border:1px solid gray;border-radius:10px;cursor:default;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+
+		</style>
+	</head>
+	<body>
+		<script>
+			var userLanguage = window.navigator.userLanguage || window.navigator.language;	
+
+			var STRING_NEXT = "";
+			var STRING_SCORE = "";
+			var STRING_GAMEOVER = "";
+
+			if (userLanguage.substring(0,2)=="es")
+				{
+				STRING_NEXT = "PR&Oacute;XIMA PIEZA";
+				STRING_SCORE = "PUNTAJE";
+				STRING_GAMEOVER = "JUEGO PERDIDO";
+				}
+				else
+				{
+				STRING_NEXT = "NEXT SHAPE";
+				STRING_SCORE = "SCORE";
+				STRING_GAMEOVER = "GAME OVER";
+				}
+		</script>
+
+		<canvas id="canvas"></canvas>
+
+		<div class="gui_reload" onclick="play()"></div>
+
+		<p id="start"><span><script>document.write(STRING_GAMEOVER)</script></span></p>
+
+		<div class="gui_container">
+			<p><script>document.write(STRING_NEXT)</script></p>
+			<canvas id="upcoming"></canvas>
+			<p><script>document.write(STRING_SCORE)</script><br/><br/><span id="score">00000</span></p>
+		</div>
+
+		<script>
+
+			//------------------------------------------------------------------------------------------------------
+			// BASE HELPER METHODS
+			//------------------------------------------------------------------------------------------------------
+
+			function get(id){return document.getElementById(id)}
+			function hide(id){get(id).style.visibility="hidden"}
+			function show(id){get(id).style.visibility=null}
+			function html(id,html){get(id).innerHTML=html}
+			function timestamp(){return new Date().getTime()}
+			function random(min,max){return (min+(Math.random()*(max-min)))}
+			function randomChoice(choices){return choices[Math.round(random(0,choices.length-1))]}
+
+			if (!window.requestAnimationFrame)
+				{
+				window.requestAnimationFrame = 	window.webkitRequestAnimationFrame ||
+												window.mozRequestAnimationFrame ||
+												window.oRequestAnimationFrame ||
+												window.msRequestAnimationFrame ||
+												function(callback, element)
+													{
+													window.setTimeout(callback, 1000 / 60);
+													};
+				}
+
+			//------------------------------------------------------------------------------------------------------
+			// GAME CONSTANTS
+			//------------------------------------------------------------------------------------------------------
+
+			var KEY     = {ESC:27,LEFT:37,UP:38,RIGHT:39,DOWN:40};
+			var DIR     = {UP:0,RIGHT:1,DOWN:2,LEFT:3,MIN:0,MAX:3};
+			var canvas  = get("canvas");
+			var ctx     = canvas.getContext("2d");
+			var ucanvas = get("upcoming");
+			var uctx    = ucanvas.getContext("2d");
+			var speed   = {start:0.6,decrement:0.005,min:0.1}; // HOW LONG BEFORE PIECE DROPS BY 1 ROW (SECONDS)
+			var nx      = 10; // WIDTH OF TETRIS COURT (IN BLOCKS)
+			var ny      = 20; // HEIGHT OF TETRIS COURT (IN BLOCKS)
+			var nu      = 5;  // WIDTH/HEIGHT OF UPCOMING PREVIEW (IN BLOCKS)
+
+			//------------------------------------------------------------------------------------------------------
+			// GAME VARIABLES (INITIALIZED DURING RESET)
+			//------------------------------------------------------------------------------------------------------
+
+			var dx, dy;   // PIXEL SIZE OF A SINGLE TETRIS BLOCK
+			var blocks;   // 2 DIMENSIONAL ARRAY (NX*NY) REPRESENTING TETRIS COURT - EITHER EMPTY BLOCK OR OCCUPIED BY A "PIECE"
+			var actions;  // QUEUE OF USER ACTIONS (INPUTS)
+			var playing;  // TRUE|FALSE - GAME IS IN PROGRESS
+			var dt;       // TIME SINCE STARTING THIS GAME
+			var current;  // THE CURRENT PIECE
+			var next;     // THE NEXT PIECE
+			var score;    // THE CURRENT SCORE
+			var vscore;   // THE CURRENTLY DISPLAYED SCORE (IT CATCHES UP TO SCORE IN SMALL CHUNKS - LIKE A SPINNING SLOT MACHINE)
+			var rows;     // NUMBER OF COMPLETED ROWS IN THE CURRENT GAME
+			var step;     // HOW LONG BEFORE CURRENT PIECE DROPS BY 1 ROW
+
+			//------------------------------------------------------------------------------------------------------
+			// TETRIS PIECES
+			//
+			// BLOCKS: EACH ELEMENT REPRESENTS A ROTATION OF THE PIECE (0, 90, 180, 270)
+			//         EACH ELEMENT IS A 16 BIT INTEGER WHERE THE 16 BITS REPRESENT
+			//         A 4X4 SET OF BLOCKS, E.G. J.BLOCKS[0] = 0X44C0
+			//
+			//             0100 = 0x4 << 3 = 0x4000
+			//             0100 = 0x4 << 2 = 0x0400
+			//             1100 = 0xC << 1 = 0x00C0
+			//             0000 = 0x0 << 0 = 0x0000
+			//                               ------
+			//                               0x44C0
+			//
+			//------------------------------------------------------------------------------------------------------
+
+			var i = {size:4,blocks:[0x0F00,0x2222,0x00F0,0x4444],color:"cyan"};
+			var j = {size:3,blocks:[0x44C0,0x8E00,0x6440,0x0E20],color:"blue"};
+			var l = {size:3,blocks:[0x4460,0x0E80,0xC440,0x2E00],color:"orange"};
+			var o = {size:2,blocks:[0xCC00,0xCC00,0xCC00,0xCC00],color:"yellow"};
+			var s = {size:3,blocks:[0x06C0,0x8C40,0x6C00,0x4620],color:"green"};
+			var t = {size:3,blocks:[0x0E40,0x4C40,0x4E00,0x4640],color:"purple"};
+			var z = {size:3,blocks:[0x0C60,0x4C80,0xC600,0x2640],color:"red"};
+
+			//------------------------------------------------------------------------------------------------------
+			// DO THE BIT MANIPULATION AND ITERATE THROUGH EACH OCCUPIED BLOCK (X,Y) FOR A GIVEN PIECE
+			//------------------------------------------------------------------------------------------------------
+
+			function eachblock(type, x, y, dir, fn)
+				{
+				var bit, result, row = 0, col = 0, blocks = type.blocks[dir];
+
+				for(bit = 0x8000 ; bit > 0 ; bit = bit >> 1)
+					{
+					if (blocks & bit)
+						{
+						fn(x + col, y + row);
+						}
+					if (++col === 4)
+						{
+						col = 0;
+						++row;
+						}
+					}
+				}
+
+			//------------------------------------------------------------------------------------------------------
+			// CHECK IF A PIECE CAN FIT INTO A POSITION IN THE GRID
+			//------------------------------------------------------------------------------------------------------
+
+			function occupied(type, x, y, dir)
+				{
+				var result = false;
+				eachblock(type, x, y, dir, function(x, y)
+					{
+					if ((x < 0) || (x >= nx) || (y < 0) || (y >= ny) || getBlock(x,y))
+						{
+						result = true;
+						}
+					});
+				return result;
+				}
+
+			function unoccupied(type, x, y, dir)
+				{
+				return !occupied(type, x, y, dir);
+				}
+
+			//------------------------------------------------------------------------------------------------------
+			// START WITH 4 INSTANCES OF EACH PIECE AND PICK RANDOMLY UNTIL THE "BAG IS EMPTY"
+			//------------------------------------------------------------------------------------------------------
+
+			var pieces = [];
+
+			function randomPiece()
+				{
+				if (pieces.length == 0)
+					{
+					pieces = [i,i,i,i,j,j,j,j,l,l,l,l,o,o,o,o,s,s,s,s,t,t,t,t,z,z,z,z];
+					}
+				var type = pieces.splice(random(0, pieces.length-1), 1)[0];
+				return {type:type,dir:DIR.UP,x:Math.round(random(0,nx-type.size)),y:0};
+				}
+
+			//------------------------------------------------------------------------------------------------------
+			// GAME LOOP
+			//------------------------------------------------------------------------------------------------------
+
+			function run()
+				{
+				// ATTACH KEYDOWN AND RESIZE EVENTS
+				addEvents();
+
+				var last = now = timestamp();
+
+				function frame()
+					{
+					now = timestamp();
+
+					// USING REQUESTANIMATIONFRAME HAVE TO BE ABLE TO HANDLE LARGE DELTA"S
+					// CAUSED WHEN IT "HIBERNATES" IN A BACKGROUND OR NON-VISIBLE TAB
+					update(Math.min(1, (now - last) / 1000.0));
+
+					draw();
+					last = now;
+					requestAnimationFrame(frame, canvas);
+					}
+
+				// SETUP ALL OUR SIZING INFORMATION
+				resize();
+
+				// RESET THE PER-GAME VARIABLES
+				reset();
+
+				// START THE FIRST FRAME
+				frame();
+				}
+
+			function addEvents()
+				{
+				document.addEventListener("keydown", keydown, false);
+				window.addEventListener("resize", resize, false);
+				}
+
+			function resize(event)
+				{
+				// SET CANVAS LOGICAL SIZE EQUAL TO ITS PHYSICAL SIZE
+				canvas.width   = canvas.clientWidth;
+				canvas.height  = canvas.clientHeight;
+				ucanvas.width  = ucanvas.clientWidth;
+				ucanvas.height = ucanvas.clientHeight;
+
+				// PIXEL SIZE OF A SINGLE TETRIS BLOCK
+				dx = canvas.width  / nx;
+				dy = canvas.height / ny;
+
+				invalidate();
+				invalidateNext();
+				}
+
+			function keydown(ev)
+				{
+				var handled = false;
+
+				if(playing)
+					{
+					switch(ev.keyCode)
+						{
+						case KEY.LEFT:
+						actions.push(DIR.LEFT);
+						handled = true;
+						break;
+
+						case KEY.RIGHT:
+						actions.push(DIR.RIGHT);
+						handled = true;
+						break;
+
+						case KEY.UP:
+						actions.push(DIR.UP);
+						handled = true;
+						break;
+
+						case KEY.DOWN:
+						actions.push(DIR.DOWN);
+						handled = true;
+						break;
+						}
+					}
+
+				if(handled)
+					{
+					ev.preventDefault();
+					}
+				}
+
+			//------------------------------------------------------------------------------------------------------
+			// GAME LOGIC
+			//------------------------------------------------------------------------------------------------------
+
+			function play(){hide("start");reset();playing=true}
+			function lose(){show("start");setVisualScore();playing=false}
+			function setVisualScore(n){vscore=n||score;invalidateScore()}
+			function setScore(n){score=n;setVisualScore(n)}
+			function addScore(n){score=score+n}
+			function clearScore(){setScore(0)}
+			function clearRows(){setRows(0)}
+			function setRows(n){rows=n;step=Math.max(speed.min,speed.start-(speed.decrement*rows));invalidateRows()}
+			function addRows(n){setRows(rows+n)}
+			function getBlock(x,y){return(blocks&&blocks[x]?blocks[x][y]:null)}
+			function setBlock(x,y,type){blocks[x]=blocks[x]||[];blocks[x][y]=type;invalidate()}
+			function clearBlocks(){blocks=[];invalidate()}
+			function clearActions(){actions=[]}
+			function setCurrentPiece(piece){current=piece||randomPiece();invalidate()}
+			function setNextPiece(piece){next=piece||randomPiece();invalidateNext()}
+
+			function reset()
+				{
+				dt = 0;
+				clearActions();
+				clearBlocks();
+				clearRows();
+				clearScore();
+				setCurrentPiece(next);
+				setNextPiece();
+				}
+
+			function update(idt)
+				{
+				if (playing)
+					{
+					if (vscore < score)
+						{
+						setVisualScore(vscore + 1);
+						}
+					handle(actions.shift());
+					dt = dt + idt;
+					if (dt > step)
+						{
+						dt = dt - step;
+						drop();
+						}
+					}
+				}
+
+			function handle(action)
+				{
+				switch(action)
+					{
+					case DIR.LEFT:
+					move(DIR.LEFT);
+					break;
+
+					case DIR.RIGHT:
+					move(DIR.RIGHT);
+					break;
+
+					case DIR.UP:
+					rotate();
+					break;
+
+					case DIR.DOWN:
+					drop();
+					break;
+					}
+				}
+
+			function move(dir)
+				{
+				var x = current.x;
+				var y = current.y;
+
+				switch(dir)
+					{
+					case DIR.RIGHT:
+					x = x + 1;
+					break;
+
+					case DIR.LEFT:
+					x = x - 1;
+					break;
+
+					case DIR.DOWN:
+					y = y + 1;
+					break;
+					}
+
+				if (unoccupied(current.type, x, y, current.dir))
+					{
+					current.x = x;
+					current.y = y;
+					invalidate();
+					return true;
+					}
+					else
+					{
+					return false;
+					}
+				}
+
+			function rotate()
+				{
+				var newdir = (current.dir == DIR.MAX ? DIR.MIN : current.dir + 1);
+				if (unoccupied(current.type, current.x, current.y, newdir))
+					{
+					current.dir = newdir;
+					invalidate();
+					}
+				}
+
+			function drop()
+				{
+				if (!move(DIR.DOWN))
+					{
+					addScore(10);
+					dropPiece();
+					removeLines();
+					setCurrentPiece(next);
+					setNextPiece(randomPiece());
+					clearActions();
+
+					if (occupied(current.type, current.x, current.y, current.dir))
+						{
+						lose();
+						}
+					}
+				}
+
+			function dropPiece()
+				{
+				eachblock(current.type, current.x, current.y, current.dir, function(x, y)
+					{
+					setBlock(x, y, current.type);
+					});
+				}
+
+			function removeLines()
+				{
+				var x, y, complete, n = 0;
+
+				for(y = ny ; y > 0 ; --y)
+					{
+					complete = true;
+
+					for(x = 0 ; x < nx ; ++x)
+						{
+						if (!getBlock(x, y))
+						complete = false;
+						}
+
+					if (complete)
+						{
+						removeLine(y);
+						y = y + 1; // RECHECK SAME LINE
+						n++;
+						}
+					}
+				if (n > 0)
+					{
+					addRows(n);
+					addScore(100*Math.pow(2,n-1)); // 1: 100, 2: 200, 3: 400, 4: 800
+					}
+				}
+
+			function removeLine(n)
+				{
+				var x, y;
+
+				for(y = n ; y >= 0 ; --y)
+					{
+					for(x = 0 ; x < nx ; ++x)
+						{
+						setBlock(x, y, (y == 0) ? null : getBlock(x, y-1));
+						}
+					}
+				}
+
+			//------------------------------------------------------------------------------------------------------
+			// RENDERING
+			//------------------------------------------------------------------------------------------------------
+
+			var invalid = {};
+
+			function invalidate()         { invalid.court  = true; }
+			function invalidateNext()     { invalid.next   = true; }
+			function invalidateScore()    { invalid.score  = true; }
+			function invalidateRows()     { invalid.rows   = true; }
+
+			function draw()
+				{
+				ctx.save();
+				ctx.lineWidth = 1;
+				ctx.translate(0.5, 0.5); // for crisp 1px black lines
+				drawCourt();
+				drawNext();
+				drawScore();
+				ctx.restore();
+				}
+
+			function drawCourt()
+				{
+				if (invalid.court)
+					{
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					if (playing)
+						{
+						drawPiece(ctx, current.type, current.x, current.y, current.dir);
+						}
+
+					var x, y, block;
+					for(y = 0 ; y < ny ; y++)
+						{
+						for (x = 0 ; x < nx ; x++)
+							{
+							if (block = getBlock(x,y))
+								{
+								drawBlock(ctx, x, y, block.color);
+								}
+							}
+						}
+
+					ctx.strokeRect(0, 0, nx*dx - 1, ny*dy - 1); // COURT BOUNDARY
+					invalid.court = false;
+					}
+				}
+
+			function drawNext()
+				{
+				if (invalid.next)
+					{
+					var padding = (nu - next.type.size) / 2; // HALF-ARSED ATTEMPT AT CENTERING NEXT PIECE DISPLAY
+					uctx.save();
+					uctx.translate(0, 0);
+					uctx.clearRect(0, 0, nu*dx, nu*dy);
+					drawPiece(uctx, next.type, padding, padding, next.dir);
+					uctx.restore();
+					invalid.next = false;
+					}
+				}
+
+			function drawScore()
+				{
+				if (invalid.score)
+					{
+					html("score", ("00000" + Math.floor(vscore)).slice(-5));
+					invalid.score = false;
+					}
+				}
+
+			function drawPiece(ctx, type, x, y, dir)
+				{
+				eachblock(type, x, y, dir, function(x, y)
+					{
+					drawBlock(ctx, x, y, type.color);
+					});
+				}
+
+			function drawBlock(ctx, x, y, color)
+				{
+				ctx.fillStyle = color;
+				ctx.fillRect(x*dx, y*dy, dx, dy);
+				ctx.strokeRect(x*dx, y*dy, dx, dy)
+				}
+
+			//------------------------------------------------------------------------------------------------------
+			// FINALLY, lets run the game
+			//------------------------------------------------------------------------------------------------------
+
+			run();
+			play();
+			handled = true;
+
+		</script>
+	</body>
+</html>
