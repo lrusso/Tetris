@@ -1,6 +1,6 @@
 # JavaScript Tetris
 
-Simple Tetris game developed in JavaScript.
+Tetris game developed in JavaScript.
 
 ![alt screenshot](https://raw.githubusercontent.com/lrusso/JavaScriptTetris/master/JavaScriptTetris.png)
 
