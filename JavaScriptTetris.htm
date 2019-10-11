@@ -11,7 +11,10 @@
 			.gui_reload:hover{filter:brightness(110%)}
 			.gui_gameover{position:fixed;width:33%;z-index:999;height:100%;margin:0 auto;left:0;right:0;top:0;bottom:0;background:rgba(255,255,255,0.7);cursor:default;-webkit-user-select:none;-moz-user-select:none;user-select:none;display:none}
 			.gui_gameover_label{position:absolute;height:50px;width:270px;margin:auto auto;top:-80px;bottom:0;left:0;right:0;text-align:center;font-family:Arial;font-size:30px;color:white;line-height:1.6;background-color:red;border-radius:10px;border:1px solid #686868;text-shadow:0 0 3px #000000,0 0 7px #000000}
-			.gui_container{position:fixed;left:10px;top:10px;width:170px;font-family:Arial;font-size:16px;text-align:center;color:white;background-color:#b9180b;border:1px solid #686868;border-radius:10px;text-shadow:0 0 3px #000000,0 0 7px #000000;cursor:default;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+			.gui_gamestatus{position:fixed;left:10px;top:10px;width:170px;font-family:Arial;font-size:16px;text-align:center;color:white;background-color:#b9180b;border:1px solid #686868;border-radius:10px;text-shadow:0 0 3px #000000,0 0 7px #000000;cursor:default;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+			.gui_gamestatus_next_piece{line-height:2.7}
+			.gui_gamestatus_score_label{line-height:2.7;padding-top:2px}
+			.gui_gamestatus_score_value{line-height:2.7;padding-bottom:5px}
 		</style>
 	</head>
 	<body>
@@ -30,7 +33,7 @@
 				}
 				else
 				{
-				STRING_NEXT = "NEXT SHAPE";
+				STRING_NEXT = "NEXT PIECE";
 				STRING_SCORE = "SCORE";
 				STRING_GAMEOVER = "GAME OVER";
 				}
@@ -39,11 +42,11 @@
 		<canvas class="gui_game"></canvas>
 		<div class="gui_reload"></div>
 		<div class="gui_gameover"><div class="gui_gameover_label"><script>document.write(STRING_GAMEOVER)</script></div></div>
-		<div class="gui_container">
-			<p><script>document.write(STRING_NEXT)</script></p>
+		<div class="gui_gamestatus">
+			<div class="gui_gamestatus_next_piece"><script>document.write(STRING_NEXT)</script></div>
 			<canvas class="gui_next"></canvas>
-			<p><script>document.write(STRING_SCORE)</script></p>
-			<p id="score">00000</p>
+			<div class="gui_gamestatus_score_label"><script>document.write(STRING_SCORE)</script></div>
+			<div class="gui_gamestatus_score_value">00000</div>
 		</div>
 
 		<script>
@@ -52,8 +55,6 @@
 			// BASE HELPER METHODS
 			//------------------------------------------------------------------------------------------------------
 
-			function get(id){return document.getElementById(id)}
-			function html(id,html){get(id).innerHTML=html}
 			function timestamp(){return new Date().getTime()}
 			function random(min,max){return (min+(Math.random()*(max-min)))}
 			function randomChoice(choices){return choices[Math.round(random(0,choices.length-1))]}
@@ -480,7 +481,7 @@
 				{
 				if (invalid.score)
 					{
-					html("score", ("00000" + Math.floor(vscore)).slice(-5));
+					document.getElementsByClassName("gui_gamestatus_score_value")[0].innerHTML = ("00000" + Math.floor(vscore)).slice(-5);
 					invalid.score = false;
 					}
 				}
