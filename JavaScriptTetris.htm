@@ -454,11 +454,50 @@
 				{
 				if (invalid.next)
 					{
-					var padding = (nu - next.type.size) / 2; // HALF-ARSED ATTEMPT AT CENTERING NEXT PIECE DISPLAY
+					var positionX = 0;
+					var positionY = 0;
+					var nextShapeColor = next.type.color;
+
+					if (nextShapeColor=="blue")
+						{
+						positionX = 47;
+						positionY = 23;
+						}
+					else if (nextShapeColor=="yellow")
+						{
+						positionX = 50;
+						positionY = 40;
+						}
+					else if (nextShapeColor=="green")
+						{
+						positionX = 33;
+						positionY = 7;
+						}
+					else if (nextShapeColor=="purple")
+						{
+						positionX = 33;
+						positionY = 7;
+						}
+					else if (nextShapeColor=="orange")
+						{
+						positionX = 17;
+						positionY = 22;
+						}
+					else if (nextShapeColor=="cyan")
+						{
+						positionX = 15;
+						positionY = 21;
+						}
+					else if (nextShapeColor=="red")
+						{
+						positionX = 33;
+						positionY = 6;
+						}
+
 					uctx.save();
-					uctx.translate(0, 0);
-					uctx.clearRect(0, 0, nu*dx, nu*dy);
-					drawPiece(uctx, next.type, padding, padding, next.dir);
+					uctx.clearRect(0, 0, 170, 170);
+					uctx.translate(positionX, positionY);
+					drawPieceNext(uctx, next.type, 0, 0, next.dir);
 					uctx.restore();
 					invalid.next = false;
 					}
@@ -481,11 +520,27 @@
 					});
 				}
 
+			function drawPieceNext(ctx, type, x, y, dir)
+				{
+				eachblock(type, x, y, dir, function(x, y)
+					{
+					drawBlockNext(ctx, x, y, type.color);
+					});
+				}
+
 			function drawBlock(ctx, x, y, color)
 				{
 				ctx.fillStyle = color;
 				ctx.fillRect(x*dx, y*dy, dx, dy);
 				ctx.strokeRect(x*dx, y*dy, dx, dy)
+				}
+
+			function drawBlockNext(ctx, x, y, color)
+				{
+				var size = 35;
+				ctx.fillStyle = color;
+				ctx.fillRect(x*size, y*size, size, size);
+				ctx.strokeRect(x*size, y*size, size, size);
 				}
 
 			//------------------------------------------------------------------------------------------------------
