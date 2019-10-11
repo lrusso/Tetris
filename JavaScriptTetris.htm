@@ -15,6 +15,8 @@
 			.gui_reload:hover{filter:brightness(110%)}
 			.gui_gameover{position:fixed;width:33%;z-index:999;height:100%;margin:0 auto;left:0;right:0;top:0;bottom:0;background:rgba(255,255,255,0.7);cursor:default;-webkit-user-select:none;-moz-user-select:none;user-select:none;display:none}
 			.gui_gameover_label{position:absolute;height:50px;width:270px;margin:auto auto;top:-80px;bottom:0;left:0;right:0;text-align:center;font-family:Arial;font-size:30px;color:white;line-height:1.6;background-color:red;border-radius:10px;border:1px solid #686868;text-shadow:0 0 3px #000000,0 0 7px #000000}
+			.gui_gamepaused{position:fixed;width:33%;z-index:999;height:100%;margin:0 auto;left:0;right:0;top:0;bottom:0;background:rgba(255,255,255,0.7);cursor:default;-webkit-user-select:none;-moz-user-select:none;user-select:none;display:none}
+			.gui_gamepaused_label{position:absolute;height:30px;width:270px;margin:auto auto;top:-80px;bottom:0;left:0;right:0;text-align:center;font-family:Arial;font-size:30px;color:black;line-height:1.6}
 			.gui_gamestatus{position:fixed;left:10px;top:10px;width:170px;font-family:Arial;font-size:16px;text-align:center;color:white;background-color:#b9180b;border:1px solid #686868;border-radius:10px;text-shadow:0 0 3px #000000,0 0 7px #000000;cursor:default;-webkit-user-select:none;-moz-user-select:none;user-select:none}
 			.gui_gamestatus_next_piece{line-height:2.7}
 			.gui_gamestatus_score_label{line-height:2.7;padding-top:2px}
@@ -26,6 +28,7 @@
 		<div class="gui_pause" id="gui_pauseresume"></div>
 		<div class="gui_reload"></div>
 		<div class="gui_gameover"><div class="gui_gameover_label">&nbsp;&nbsp;&nbsp;</div></div>
+		<div class="gui_gamepaused"><div class="gui_gamepaused_label">&nbsp;&nbsp;&nbsp;</div></div>
 		<div class="gui_gamestatus">
 			<div class="gui_gamestatus_next_piece">&nbsp;&nbsp;&nbsp;</div>
 			<canvas class="gui_next"></canvas>
@@ -493,22 +496,26 @@
 
 			var STRING_NEXT = "";
 			var STRING_SCORE = "";
+			var STRING_PAUSED = "";
 			var STRING_GAMEOVER = "";
 
 			if (userLanguage.substring(0,2)=="es")
 				{
 				STRING_NEXT = "PR&Oacute;XIMA PIEZA";
 				STRING_SCORE = "PUNTAJE";
+				STRING_PAUSED = "PAUSADO";
 				STRING_GAMEOVER = "JUEGO PERDIDO";
 				}
 				else
 				{
 				STRING_NEXT = "NEXT PIECE";
 				STRING_SCORE = "SCORE";
+				STRING_PAUSED = "PAUSED";
 				STRING_GAMEOVER = "GAME OVER";
 				}
 
 			document.getElementsByClassName("gui_gameover_label")[0].innerHTML = STRING_GAMEOVER;
+			document.getElementsByClassName("gui_gamepaused_label")[0].innerHTML = STRING_PAUSED;
 			document.getElementsByClassName("gui_gamestatus_next_piece")[0].innerHTML = STRING_NEXT;
 			document.getElementsByClassName("gui_gamestatus_score_label")[0].innerHTML = STRING_SCORE;
 
@@ -585,17 +592,20 @@
 								{
 								playing = false;
 								document.getElementById("gui_pauseresume").className = "gui_resume";
+								document.getElementsByClassName("gui_gamepaused")[0].style.display = "block";
 								}
 							else
 								{
 								playing = true;
 								document.getElementById("gui_pauseresume").className = "gui_pause";
+								document.getElementsByClassName("gui_gamepaused")[0].style.display = "none";
 								}
 							}
 						});
 					document.getElementsByClassName("gui_reload")[0].addEventListener("click",function(event)
 						{
 						document.getElementById("gui_pauseresume").className = "gui_pause";
+						document.getElementById("gui_gamepaused").style.display = "none";
 						play();
 						handled = true
 						});
