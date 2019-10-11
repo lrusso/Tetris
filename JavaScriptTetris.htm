@@ -605,7 +605,7 @@
 					document.getElementsByClassName("gui_reload")[0].addEventListener("click",function(event)
 						{
 						document.getElementById("gui_pauseresume").className = "gui_pause";
-						document.getElementById("gui_gamepaused").style.display = "none";
+						document.getElementsByClassName("gui_gamepaused")[0].style.display = "none";
 						play();
 						handled = true
 						});
