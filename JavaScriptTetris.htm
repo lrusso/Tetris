@@ -37,15 +37,13 @@
 		</script>
 
 		<canvas class="gui_game"></canvas>
-
-		<div class="gui_reload" onclick="play()"></div>
-
+		<div class="gui_reload"></div>
 		<div class="gui_gameover"><span><script>document.write(STRING_GAMEOVER)</script></span></div>
-
 		<div class="gui_container">
 			<p><script>document.write(STRING_NEXT)</script></p>
 			<canvas class="gui_next"></canvas>
-			<p><script>document.write(STRING_SCORE)</script><br/><br/><span id="score">00000</span></p>
+			<p><script>document.write(STRING_SCORE)</script></p>
+			<p id="score">00000</p>
 		</div>
 
 		<script>
@@ -193,9 +191,6 @@
 
 			function run()
 				{
-				// ATTACH KEYDOWN AND RESIZE EVENTS
-				addEvents();
-
 				var last = now = timestamp();
 
 				function frame()
@@ -221,13 +216,7 @@
 				frame();
 				}
 
-			function addEvents()
-				{
-				document.addEventListener("keydown", keydown, false);
-				window.addEventListener("resize", resize, false);
-				}
-
-			function resize(event)
+			function resize()
 				{
 				// SET CANVAS LOGICAL SIZE EQUAL TO ITS PHYSICAL SIZE
 				canvas.width   = canvas.clientWidth;
@@ -241,42 +230,6 @@
 
 				invalidate();
 				invalidateNext();
-				}
-
-			function keydown(ev)
-				{
-				var handled = false;
-
-				if(playing)
-					{
-					switch(ev.keyCode)
-						{
-						case KEY.LEFT:
-						actions.push(DIR.LEFT);
-						handled = true;
-						break;
-
-						case KEY.RIGHT:
-						actions.push(DIR.RIGHT);
-						handled = true;
-						break;
-
-						case KEY.UP:
-						actions.push(DIR.UP);
-						handled = true;
-						break;
-
-						case KEY.DOWN:
-						actions.push(DIR.DOWN);
-						handled = true;
-						break;
-						}
-					}
-
-				if(handled)
-					{
-					ev.preventDefault();
-					}
 				}
 
 			//------------------------------------------------------------------------------------------------------
@@ -548,12 +501,79 @@
 				}
 
 			//------------------------------------------------------------------------------------------------------
-			// FINALLY, LETS RUN THE GAME
+			// SETTING KEYDOWN AND RESIZING EVENTS
 			//------------------------------------------------------------------------------------------------------
 
-			run();
-			play();
-			handled = true;
+			document.addEventListener("keydown", function(event)
+				{
+				try
+					{
+					var handled = false;
+
+					if(playing)
+						{
+						switch(event.keyCode)
+							{
+							case KEY.LEFT:
+							actions.push(DIR.LEFT);
+							handled = true;
+							break;
+
+							case KEY.RIGHT:
+							actions.push(DIR.RIGHT);
+							handled = true;
+							break;
+
+							case KEY.UP:
+							actions.push(DIR.UP);
+							handled = true;
+							break;
+
+							case KEY.DOWN:
+							actions.push(DIR.DOWN);
+							handled = true;
+							break;
+							}
+						}
+
+					if(handled)
+						{
+						event.preventDefault();
+						}
+					}
+					catch(err)
+					{
+					}
+				});
+
+			window.onresize = function()
+				{
+				try
+					{
+					resize();
+					}
+					catch(err)
+					{
+					}
+				}
+
+			//------------------------------------------------------------------------------------------------------
+			// STARTING THE GAME ONCE THE WEBPAGE IS FULLY LOADED
+			//------------------------------------------------------------------------------------------------------
+
+			window.onload = function()
+				{
+				try
+					{
+					document.getElementsByClassName("gui_reload")[0].addEventListener("click",function(event){play();handled = true});
+					run();
+					play();
+					handled = true;
+					}
+					catch(err)
+					{
+					}
+				}
 		</script>
 	</body>
 </html>
