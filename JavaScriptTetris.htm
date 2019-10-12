@@ -66,7 +66,7 @@
 			// GAME CONSTANTS
 			//------------------------------------------------------------------------------------------------------
 
-			var KEY     = {ESC:27,LEFT:37,UP:38,RIGHT:39,DOWN:40};
+			var KEY     = {SPACE:32,LEFT:37,UP:38,RIGHT:39,DOWN:40};
 			var DIR     = {UP:0,RIGHT:1,DOWN:2,LEFT:3,MIN:0,MAX:3};
 			var canvas  = document.getElementsByClassName("gui_game")[0];
 			var ctx     = canvas.getContext("2d");
@@ -405,6 +405,25 @@
 					}
 				}
 
+			function pauseResume()
+				{
+				if (document.getElementsByClassName("gui_gameover")[0].style.display!="block")
+					{
+					if (playing==true)
+						{
+						playing = false;
+						document.getElementById("gui_pauseresume").className = "gui_resume";
+						document.getElementsByClassName("gui_gamepaused")[0].style.display = "block";
+						}
+					else
+						{
+						playing = true;
+						document.getElementById("gui_pauseresume").className = "gui_pause";
+						document.getElementsByClassName("gui_gamepaused")[0].style.display = "none";
+						}
+					}
+				}
+
 			//------------------------------------------------------------------------------------------------------
 			// RENDERING
 			//------------------------------------------------------------------------------------------------------
@@ -614,6 +633,12 @@
 							}
 						}
 
+					if (event.keyCode==KEY.SPACE)
+						{
+						pauseResume();
+						handled = true;
+						}
+
 					if(handled)
 						{
 						event.preventDefault();
@@ -645,22 +670,9 @@
 					{
 					document.getElementById("gui_pauseresume").addEventListener("click",function(event)
 						{
-						if (document.getElementsByClassName("gui_gameover")[0].style.display!="block")
-							{
-							if (playing==true)
-								{
-								playing = false;
-								document.getElementById("gui_pauseresume").className = "gui_resume";
-								document.getElementsByClassName("gui_gamepaused")[0].style.display = "block";
-								}
-							else
-								{
-								playing = true;
-								document.getElementById("gui_pauseresume").className = "gui_pause";
-								document.getElementsByClassName("gui_gamepaused")[0].style.display = "none";
-								}
-							}
+						pauseResume();
 						});
+
 					document.getElementsByClassName("gui_reload")[0].addEventListener("click",function(event)
 						{
 						document.getElementById("gui_pauseresume").className = "gui_pause";
