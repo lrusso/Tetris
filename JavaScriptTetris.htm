@@ -653,8 +653,16 @@
 
 					if (event.keyCode==KEY.SPACE)
 						{
-						pauseResume();
-						handled = true;
+						if (document.getElementsByClassName("gui_gameover")[0].style.display!="block")
+							{
+							pauseResume();
+							handled = true;
+							}
+							else
+							{
+							play();
+							handled = true
+							}
 						}
 
 					if(handled)
