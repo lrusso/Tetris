@@ -641,13 +641,18 @@
 					}
 				}
 
+			function isLandscape()
+				{
+				return window.innerWidth > window.innerHeight;
+				}
+
 			function pleaseRotate()
 				{
 				try
 					{
 					if (isMobileDevice()==true)
 						{
-						if (window.orientation!=0)
+						if(isLandscape()==true)
 							{
 							document.getElementsByClassName("gui_pleaserotate")[0].style.display = "block";
 							}
@@ -776,10 +781,13 @@
 					}
 				}
 
-			window.addEventListener("orientationchange", function()
+			window.onorientationchange = function()
 				{
-				pleaseRotate();
-				}, false);
+				setTimeout(function()
+					{
+					pleaseRotate();
+					}, 500);
+				};
 
 			//------------------------------------------------------------------------------------------------------
 			// STARTING THE GAME ONCE THE WEBPAGE IS FULLY LOADED
