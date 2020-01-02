@@ -29,8 +29,6 @@
 			<div class="nexttitle">Next Piece</div>
 			<img class="nextpiece" alt="nextpiece" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5AECAC8bThHjjgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAADUlEQVQI12P4//8/AwAI/AL+XJ/P2gAAAABJRU5ErkJggg=="/>
 		</div>
-		<script src="source/jquery.js"></script>
-		<script src="source/blockrain.js"></script>
 		<script>
 
 			// jquery-1.11.1.min.js
@@ -41,6 +39,32 @@
 
 			// STARTING GAME
 			$(".game").blockrain({theme:"candy"});
+
+			// ----------------------------------------------------------------------------------------------------
+			// GAME WILL BE PAUSED OR RESUME IF THE WINDOW IS ONFOCUS OR NOT
+			// ----------------------------------------------------------------------------------------------------
+
+			window.onblur = function()
+				{
+				try
+					{
+					$(".game").blockrain("pause");
+					}
+					catch(err)
+					{
+					}
+				}
+
+			window.onfocus = function()
+				{
+				try
+					{
+					$(".game").blockrain("resume");
+					}
+					catch(err)
+					{
+					}
+				}
 
 			// ----------------------------------------------------------------------------------------------------
 			// SCRIPT FOR MOBILE COMPATIBILITY
