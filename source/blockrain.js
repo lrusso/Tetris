@@ -173,8 +173,9 @@
       game._board.cur.moveLeft();
     },
 
-    moveDrop: function(){
+    moveDrop: function(start){
       var game = this;
+        if( ! start ) { game._board.holding.drop = null; return; }
         if( ! game._board.holding.drop ) {
           game._board.cur.drop(); 
           game._board.holding.drop = Date.now();
