@@ -650,6 +650,9 @@ var myTempFixTetris = "";
       var game = this;
       if( this._filled !== null ){ return; }
 
+      game._BLOCK_WIDTH = 10;
+      game._BLOCK_HEIGHT = 20;
+
       this._filled = {
         data: new Array(game._BLOCK_WIDTH * game._BLOCK_HEIGHT),
         score: 0,
