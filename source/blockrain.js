@@ -227,8 +227,8 @@
       }
 
       if( typeof this._theme === 'undefined' || this._theme === null ) {
-        this._theme = $.extend(true, {}, BlockrainThemes['retro']);
-        this.options.theme = 'retro';
+        this._theme = $.extend(true, {}, BlockrainThemes['candy']);
+        this.options.theme = 'candy';
       }
 
       if( isNaN(parseInt(this._theme.strokeWidth)) || typeof parseInt(this._theme.strokeWidth) !== 'number' ) {
