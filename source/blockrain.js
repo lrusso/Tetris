@@ -1266,12 +1266,11 @@
 
       // Create the main holder (it holds all the ui elements, the original element is just the wrapper)
       this._$gameholder = $('<div class="blockrain-game-holder"></div>');
-      this._$gameholder.css('position', 'fixed').css('width', '100%').css('height', '100%');
 
       this.element.html('').append(this._$gameholder);
 
       // Create the game canvas and context
-      this._$canvas = $('<canvas style="display:block;height:100%; padding:0; margin:0; margin:0 auto" />');
+      this._$canvas = $('<canvas class="blockrain-canvas" />');
       if( typeof this._theme.background === 'string' ) {
         this._$canvas.css('background-color', this._theme.background);
       }
