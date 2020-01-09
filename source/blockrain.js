@@ -270,6 +270,10 @@
 
     _repeatedShape: "",
 
+    _xDown: null,
+    _yDown: null,
+    _dropSelected: false,
+
     // Initialization
     _create: function() {
 
@@ -1597,15 +1601,71 @@
         return isStopKey(evt);
       }
 
+      function touchstart(evt) {
+        var firstTouch = evt.touches[0];
+        game._xDown = firstTouch.clientX;
+        game._yDown = firstTouch.clientY;
+        game._dropSelected = false;
+      }
+
+      function touchmove(evt) {
+        if (!game._xDown || !game._yDown)
+          {
+          return;
+          }
+        var xUp = evt.touches[0].clientX;
+        var yUp = evt.touches[0].clientY;
+        var xDiff = game._xDown - xUp;
+        var yDiff = game._yDown - yUp;
+        if (Math.abs(xDiff)>Math.abs(yDiff))
+          {
+          if (xDiff > 0)
+            {
+            game.moveLeft();
+            }
+            else
+            {
+            game.moveRight();
+            }
+          }
+          else
+          {
+          if (yDiff > 0)
+            {
+            game.moveRotate();
+            }
+            else
+            {
+            game.moveDrop(true);
+            game._dropSelected = true;
+            }
+          }
+        game._xDown = null;
+        game._yDown = null;
+      }
+
+      function touchend(evt) {
+        if (game._dropSelected==true)
+          {
+          game.moveDrop(false);
+          game._dropSelected = false;
+          }
+      }
+
       // Unbind everything by default
       // Use event namespacing so we don't ruin other keypress events
-      $(document) .unbind('keydown.blockrain')
-                  .unbind('keyup.blockrain');
+      $(document).unbind('keydown.blockrain');
+      $(document).unbind('keyup.blockrain');
 
       if( ! game.options.autoplay ) {
         if( enable ) {
-          $(document) .bind('keydown.blockrain', keydown)
-                      .bind('keyup.blockrain', keyup);
+
+          $(document).bind('keydown.blockrain',keydown);
+          $(document).bind('keyup.blockrain',keyup);
+          $(document).bind('touchstart',function(event){touchstart(event.originalEvent)});
+          $(document).bind('touchmove',function(event){touchmove(event.originalEvent)});
+          $(document).bind('touchend',function(event){touchend(event.originalEvent)});
+
         }
       }
     },
