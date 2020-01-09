@@ -1665,6 +1665,8 @@
           $(document).bind('touchstart',function(event){touchstart(event.originalEvent)});
           $(document).bind('touchmove',function(event){touchmove(event.originalEvent)});
           $(document).bind('touchend',function(event){touchend(event.originalEvent)});
+          $(window).bind('focus',function(event){game.resume()});
+          $(window).bind('blur',function(event){game.pause()});
 
         }
       }
