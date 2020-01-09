@@ -36,6 +36,7 @@
       gameOverText: 'Game Over',
       restartButtonText: 'Play Again',
       scoreText: 'Score',
+      nextPiece: 'Next',
 
       // Basic Callbacks
       onStart: function(){},
@@ -1327,7 +1328,7 @@
       game._$gameholder.append(game._$gameover);
 
       // Create the next piece menu
-      game._$gameholder.append("<div class='blockrain-next'><div class='blockrain-next-title'>Next</div><img class='blockrain-next-piece' alt='nextpiece' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5AECAC8bThHjjgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAADUlEQVQI12P4//8/AwAI/AL+XJ/P2gAAAABJRU5ErkJggg=='/></div>");
+      game._$gameholder.append("<div class='blockrain-next'><div class='blockrain-next-title'>" + this.options.nextPiece + "</div><img class='blockrain-next-piece' alt='nextpiece' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5AECAC8bThHjjgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAADUlEQVQI12P4//8/AwAI/AL+XJ/P2gAAAABJRU5ErkJggg=='/></div>");
 
     },
 
