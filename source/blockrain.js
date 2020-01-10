@@ -94,6 +94,7 @@
     },
 
     restart: function() {
+      if(this._board.paused==true){this.resume()}
       this._doStart();
       this.options.onRestart.call(this.element);
     },
@@ -111,6 +112,7 @@
       this._board.started = true;
       this._board.gameover = false;
       this._board.dropDelay = 5;
+      this._board.paused = false;
       this._board.render(true);
       this._board.animate();
 
@@ -122,10 +124,14 @@
 
     pause: function() {
       this._board.paused = true;
+      document.getElementsByClassName("blockrain-pause-icon")[0].classList.add("blockrain-resume-icon");
+      document.getElementsByClassName("blockrain-pause-icon")[0].classList.remove("blockrain-pause-icon");
     },
 
     resume: function() {
       this._board.paused = false;
+      document.getElementsByClassName("blockrain-resume-icon")[0].classList.add("blockrain-pause-icon");
+      document.getElementsByClassName("blockrain-resume-icon")[0].classList.remove("blockrain-resume-icon");
     },
 
     autoplay: function(enable) {
@@ -506,74 +512,82 @@
           orientation: 0, // 4 possible
 
           rotate: function(direction) {
-            var orientation =
-              (this.orientation + (direction === "left" ? 1 : -1) + 4) % 4;
+            if(game._board.paused==false) {
+              var orientation =
+                (this.orientation + (direction === "left" ? 1 : -1) + 4) % 4;
 
-            if (!game._checkCollisions(
-                this.x,
-                this.y,
-                this.getBlocks(orientation)
-              )) {
-              this.orientation = orientation;
-              game._board.renderChanged = true;
-            } else {
-              var ogOrientation = this.orientation;
-              var ogX = this.x;
-              var ogY = this.y;
-
-              this.orientation = orientation;
-
-              while (this.x >= game._BLOCK_WIDTH - 2) {
-                this.x--;
-              }
-              while (this.x < 0) {
-                this.x++;
-              }
-
-              if (this.blockType === "line" && this.x === 0) this.x++;
-
-              if ( game._checkCollisions(
+              if (!game._checkCollisions(
                   this.x,
                   this.y,
                   this.getBlocks(orientation)
-                )
-              ) {
-                this.y--;
-                if (
-                    game._checkCollisions(
-                      this.x,
-                      this.y,
-                      this.getBlocks(orientation)
-                    )
-                ) {
-                    this.x = ogX;
-                    this.y = ogY;
-                    this.orientation = ogOrientation;
+                )) {
+                this.orientation = orientation;
+                game._board.renderChanged = true;
+              } else {
+                var ogOrientation = this.orientation;
+                var ogX = this.x;
+                var ogY = this.y;
+
+                this.orientation = orientation;
+
+                while (this.x >= game._BLOCK_WIDTH - 2) {
+                  this.x--;
                 }
+                while (this.x < 0) {
+                  this.x++;
+                }
+
+                if (this.blockType === "line" && this.x === 0) this.x++;
+
+                if ( game._checkCollisions(
+                    this.x,
+                    this.y,
+                    this.getBlocks(orientation)
+                  )
+                ) {
+                  this.y--;
+                  if (
+                      game._checkCollisions(
+                        this.x,
+                        this.y,
+                        this.getBlocks(orientation)
+                      )
+                  ) {
+                      this.x = ogX;
+                      this.y = ogY;
+                      this.orientation = ogOrientation;
+                  }
+                }
+                game._board.renderChanged = true;
               }
-              game._board.renderChanged = true;
             }
           },
 
           moveRight: function() {
-            if (!game._checkCollisions(this.x + 1, this.y, this.getBlocks())) {
-              this.x++;
-              game._board.renderChanged = true;
+            if(game._board.paused==false) {
+              if (!game._checkCollisions(this.x + 1, this.y, this.getBlocks())) {
+                this.x++;
+                game._board.renderChanged = true;
+              }
             }
           },
           moveLeft: function() {
-            if (!game._checkCollisions(this.x - 1, this.y, this.getBlocks())) {
-              this.x--;
-              game._board.renderChanged = true;
+            if(game._board.paused==false) {
+              if (!game._checkCollisions(this.x - 1, this.y, this.getBlocks())) {
+                this.x--;
+                game._board.renderChanged = true;
+              }
             }
           },
           drop: function() {
-            if (!game._checkCollisions(this.x, this.y + 1, this.getBlocks())) {
-              this.y++;
-              // Reset the drop count, as we dropped the block sooner
-              game._board.dropCount = -1;
-              game._board.animate();
-              game._board.renderChanged = true;
+            if(game._board.paused==false) {
+              if (!game._checkCollisions(this.x, this.y + 1, this.getBlocks())) {
+                this.y++;
+                // Reset the drop count, as we dropped the block sooner
+                game._board.dropCount = -1;
+                game._board.animate();
+                game._board.renderChanged = true;
+              }
             }
           },
 
@@ -1334,6 +1348,12 @@
       // Create the next piece menu
       game._$gameholder.append("<div class='blockrain-next'><div class='blockrain-next-title'>" + this.options.nextPiece + "</div><img class='blockrain-next-piece' alt='nextpiece' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5AECAC8bThHjjgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAADUlEQVQI12P4//8/AwAI/AL+XJ/P2gAAAABJRU5ErkJggg=='/></div>");
 
+      // Create the pause icon
+      game._$gameholder.append("<div class='blockrain-pause'><div class='blockrain-pause-icon'></div></div>");
+
+      // Create the resume icon
+      game._$gameholder.append("<div class='blockrain-restart'><div class='blockrain-restart-icon'></div></div>");
+
     },
 
     _refreshBlockSizes: function() {
@@ -1667,6 +1687,8 @@
           $(document).bind('touchend',function(event){touchend(event.originalEvent)});
           $(window).bind('focus',function(event){game.resume()});
           $(window).bind('blur',function(event){game.pause()});
+          $('.blockrain-restart').click(function(event){game.restart()});
+          $('.blockrain-pause').click(function(event){if(game._board.paused==true){game.resume()}else{game.pause()}});
 
         }
       }
