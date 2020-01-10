@@ -512,7 +512,7 @@
           orientation: 0, // 4 possible
 
           rotate: function(direction) {
-            if(game._board.paused==false) {
+            if(game._board.paused==false && game._board.gameover ==false) {
               var orientation =
                 (this.orientation + (direction === "left" ? 1 : -1) + 4) % 4;
 
@@ -564,7 +564,7 @@
           },
 
           moveRight: function() {
-            if(game._board.paused==false) {
+            if(game._board.paused==false && game._board.gameover ==false) {
               if (!game._checkCollisions(this.x + 1, this.y, this.getBlocks())) {
                 this.x++;
                 game._board.renderChanged = true;
@@ -572,7 +572,7 @@
             }
           },
           moveLeft: function() {
-            if(game._board.paused==false) {
+            if(game._board.paused==false && game._board.gameover ==false) {
               if (!game._checkCollisions(this.x - 1, this.y, this.getBlocks())) {
                 this.x--;
                 game._board.renderChanged = true;
@@ -580,7 +580,7 @@
             }
           },
           drop: function() {
-            if(game._board.paused==false) {
+            if(game._board.paused==false && game._board.gameover ==false) {
               if (!game._checkCollisions(this.x, this.y + 1, this.getBlocks())) {
                 this.y++;
                 // Reset the drop count, as we dropped the block sooner
