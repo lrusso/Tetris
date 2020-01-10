@@ -1591,7 +1591,7 @@
           case 37: /*left*/   moveLeft(false); break;
           case 39: /*right*/  moveRight(false); break;
           case 40: /*down*/   drop(false); break;
-          case 32: /*space*/  if(game._board.paused==true){game.resume()}else{game.pause()}; break;
+          case 32: /*space*/  if(game._board.gameover==true){game.restart()}else if(game._board.paused==true){game.resume()}else{game.pause()}; break;
           default: caught = false;
         }
         if (caught) evt.preventDefault();
