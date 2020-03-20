@@ -121,17 +121,26 @@
       this._$score.fadeIn(150);
     },
 
-
     pause: function() {
       this._board.paused = true;
+      try{
       document.getElementsByClassName("blockrain-pause-icon")[0].classList.add("blockrain-resume-icon");
       document.getElementsByClassName("blockrain-pause-icon")[0].classList.remove("blockrain-pause-icon");
+      }
+      catch(err)
+      {
+      }
     },
 
     resume: function() {
       this._board.paused = false;
+      try{
       document.getElementsByClassName("blockrain-resume-icon")[0].classList.add("blockrain-pause-icon");
       document.getElementsByClassName("blockrain-resume-icon")[0].classList.remove("blockrain-resume-icon");
+      }
+      catch(err)
+      {
+      }
     },
 
     autoplay: function(enable) {
