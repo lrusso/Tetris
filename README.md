@@ -1,4 +1,4 @@
-# JavaScript Tetris
+# Tetris
 
 Tetris game developed in JavaScript.
 
