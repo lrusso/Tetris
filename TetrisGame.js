@@ -324,88 +324,76 @@ Tetris.Game.prototype = {
 
 	update: function()
 		{
-		// CHECKING IF THE TAB IS ACTIVE
-		if (isTabActive==true)
+		// CHECKING IF THE USER IS PRESSING THE LEFT KEY
+		if (this.cursors.left.isDown || this.keyA.isDown || (this.stick.isDown==true && this.stick.octant==180))
 			{
-			// RESUMING THE GAME
-			this.timer.resume();
-
-			// CHECKING IF THE USER IS PRESSING THE LEFT KEY
-			if (this.cursors.left.isDown || this.keyA.isDown || (this.stick.isDown==true && this.stick.octant==180))
+			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
+			if (this.getCurrentTime()-this.currentMovementTimerLeft > this.movementLag)
 				{
-				// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
-				if (this.getCurrentTime()-this.currentMovementTimerLeft > this.movementLag)
+				// CHECKING IF THE MOVEMENT IS POSSIBLE
+				if(this.canMove(this.slide,"left")==true)
 					{
-					// CHECKING IF THE MOVEMENT IS POSSIBLE
-					if(this.canMove(this.slide,"left")==true)
-						{
-						// MOVING THE PIECE
-						this.move(this.slide,this.slideCenter,"left",1);
-						}
-
-					// RESETTING THE TIME COUNTER FOR THE LEFT KEY
-					this.currentMovementTimerLeft = this.getCurrentTime();
+					// MOVING THE PIECE
+					this.move(this.slide,this.slideCenter,"left",1);
 					}
-				}
 
-			// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
-			if (this.cursors.right.isDown || this.keyD.isDown || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
-				{
-				// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
-				if (this.getCurrentTime()-this.currentMovementTimerRight > this.movementLag)
-					{
-					// CHECKING IF THE MOVEMENT IS POSSIBLE
-					if(this.canMove(this.slide,"right")==true)
-						{
-						// MOVING THE PIECE
-						this.move(this.slide,this.slideCenter,"right",1);
-						}
-
-					// RESETTING THE TIME COUNTER FOR THE RIGHT KEY
-					this.currentMovementTimerRight = this.getCurrentTime();
-					}
-				}
-
-			// CHECKING IF THE USER IS PRESSING THE DOWN KEY
-			if (this.cursors.down.isDown || this.keyS.isDown || (this.stick.isDown==true && this.stick.octant==90))
-				{
-				// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
-				if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag)
-					{
-					// CHECKING IF THE MOVEMENT IS POSSIBLE
-					if(this.canMove(this.slide,"down")==true)
-						{
-						// MOVING THE PIECE
-						this.move(this.slide,this.slideCenter,"down",1);
-						}
-
-					// RESETTING THE TIME COUNTER FOR THE DOWN KEY
-					this.currentMovementTimerDown = this.getCurrentTime();
-					}
-				}
-
-			// CHECKING IF THE USER IS PRESSING THE UP KEY
-			if (this.cursors.up.isDown || this.keyW.isDown || (this.stick.isDown==true && this.stick.octant==270))
-				{
-				// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
-				if (this.getCurrentTime()-this.currentMovementTimerUp > this.movementLag * 1.5)
-					{
-					// CHECKING IF THE MOVEMENT IS POSSIBLE
-					if(this.canMove(this.rotate,"counterclockwise")==true)
-						{
-						// MOVING THE PIECE
-						this.move(this.rotate,null,"counterclockwise",1);
-						}
-
-					// RESETTING THE TIME COUNTER FOR THE UP KEY
-					this.currentMovementTimerUp = this.getCurrentTime();
-					}
+				// RESETTING THE TIME COUNTER FOR THE LEFT KEY
+				this.currentMovementTimerLeft = this.getCurrentTime();
 				}
 			}
-			else
+
+		// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
+		if (this.cursors.right.isDown || this.keyD.isDown || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
 			{
-			// PAUSING THE GAME
-			this.timer.pause();
+			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
+			if (this.getCurrentTime()-this.currentMovementTimerRight > this.movementLag)
+				{
+				// CHECKING IF THE MOVEMENT IS POSSIBLE
+				if(this.canMove(this.slide,"right")==true)
+					{
+					// MOVING THE PIECE
+					this.move(this.slide,this.slideCenter,"right",1);
+					}
+
+				// RESETTING THE TIME COUNTER FOR THE RIGHT KEY
+				this.currentMovementTimerRight = this.getCurrentTime();
+				}
+			}
+
+		// CHECKING IF THE USER IS PRESSING THE DOWN KEY
+		if (this.cursors.down.isDown || this.keyS.isDown || (this.stick.isDown==true && this.stick.octant==90))
+			{
+			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
+			if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag)
+				{
+				// CHECKING IF THE MOVEMENT IS POSSIBLE
+				if(this.canMove(this.slide,"down")==true)
+					{
+					// MOVING THE PIECE
+					this.move(this.slide,this.slideCenter,"down",1);
+					}
+
+				// RESETTING THE TIME COUNTER FOR THE DOWN KEY
+				this.currentMovementTimerDown = this.getCurrentTime();
+				}
+			}
+
+		// CHECKING IF THE USER IS PRESSING THE UP KEY
+		if (this.cursors.up.isDown || this.keyW.isDown || (this.stick.isDown==true && this.stick.octant==270))
+			{
+			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
+			if (this.getCurrentTime()-this.currentMovementTimerUp > this.movementLag * 1.5)
+				{
+				// CHECKING IF THE MOVEMENT IS POSSIBLE
+				if(this.canMove(this.rotate,"counterclockwise")==true)
+					{
+					// MOVING THE PIECE
+					this.move(this.rotate,null,"counterclockwise",1);
+					}
+
+				// RESETTING THE TIME COUNTER FOR THE UP KEY
+				this.currentMovementTimerUp = this.getCurrentTime();
+				}
 			}
 		},
 
@@ -858,20 +846,19 @@ function Tetromino()
 		}
 	}
 
-// VARIABLE TO CHECK IF THE TAB IS ACTIVE
-var isTabActive = true;
-
 // CHECKING EVERY 250 MS IF THE TAB IS ACTIVE
 setInterval(function()
 	{
 	// CHECKING IF THE DOCUMENT HAS FOCUS
 	if(document.hasFocus()==true)
 		{
-		isTabActive = true;
+		// RESUMING THE GAME
+		game.paused = false;
 		}
 		else
 		{
-		isTabActive = false
+		// PAUSING THE GAME
+		game.paused = true;
 		}
 }, 250);
 
