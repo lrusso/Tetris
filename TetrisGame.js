@@ -175,6 +175,8 @@ Tetris.Game = function (game)
 	this.currentMovementTimerLeft = null;
 	this.currentMovementTimerRight = null;
 
+	this.isMobileDevice = null;
+
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
 		{
@@ -230,10 +232,15 @@ Tetris.Game.prototype = {
 		this.currentMovementTimerDown = 0;
 		this.currentMovementTimerLeft = 0;
 		this.currentMovementTimerRight = 0;
+
+		this.isMobileDevice = null;
 		},
 
 	create: function()
 		{
+		// CHECKING IS THE GAME IS RUNNING IN A MOBILE DEVICE
+		this.isMobileDevice = isMobileDevice();
+
 		// SETTING THE WORLD BOUNDS
 		game.world.setBounds(0, -64, 600, 608);
 
@@ -344,7 +351,7 @@ Tetris.Game.prototype = {
 			}
 
 		// CHECKING IF IT IS A MOBILE DEVICE
-		if (isMobileDevice()==true)
+		if (this.isMobileDevice==true)
 			{
 			// SHOWING THE STICK FOR MOBILE DEVICES
 			this.stick.visible = true;
@@ -811,7 +818,7 @@ Tetris.Game.prototype = {
 		this.toastText.position.x = game.width / 2 - this.toastText.width / 2;
 
 		// CHECKING IF IT IS A MOBILE DEVICE
-		if (isMobileDevice()==true)
+		if (this.isMobileDevice==true)
 			{
 			// MOVING DOWN THE TOAST TEST
 			this.toastText.position.y = game.height - this.toastText.height - 238;
