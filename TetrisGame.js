@@ -353,8 +353,14 @@ Tetris.Game.prototype = {
 
 	update: function()
 		{
+		// DETECTING THE KEYS
+		var moveUp = this.cursors.up.isDown || this.keyW.isDown;
+		var moveDown = this.cursors.down.isDown || this.keyS.isDown;
+		var moveLeft = this.cursors.left.isDown || this.keyA.isDown;
+		var moveRight = this.cursors.right.isDown || this.keyD.isDown;
+
 		// CHECKING IF THE USER IS PRESSING THE LEFT KEY
-		if (this.cursors.left.isDown || this.keyA.isDown || (this.stick.isDown==true && this.stick.octant==180))
+		if (moveLeft==true || (this.stick.isDown==true && this.stick.octant==180))
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
 			if (this.getCurrentTime()-this.currentMovementTimerLeft > this.movementLag)
@@ -372,7 +378,7 @@ Tetris.Game.prototype = {
 			}
 
 		// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
-		if (this.cursors.right.isDown || this.keyD.isDown || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
+		if (moveRight==true || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
 			if (this.getCurrentTime()-this.currentMovementTimerRight > this.movementLag)
@@ -390,7 +396,7 @@ Tetris.Game.prototype = {
 			}
 
 		// CHECKING IF THE USER IS PRESSING THE DOWN KEY
-		if (this.cursors.down.isDown || this.keyS.isDown || (this.stick.isDown==true && this.stick.octant==90))
+		if (moveDown==true || (this.stick.isDown==true && this.stick.octant==90))
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
 			if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag)
@@ -408,7 +414,7 @@ Tetris.Game.prototype = {
 			}
 
 		// CHECKING IF THE USER IS PRESSING THE UP KEY
-		if (this.cursors.up.isDown || this.keyW.isDown || (this.stick.isDown==true && this.stick.octant==270))
+		if (moveUp==true || (this.stick.isDown==true && this.stick.octant==270))
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
 			if (this.getCurrentTime()-this.currentMovementTimerUp > this.movementLag * 1.5)
