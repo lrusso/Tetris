@@ -591,7 +591,7 @@ Tetris.Game.prototype = {
 		{
 		// CHECKING IF THE LINES CORRESPONDING TO THE Y COORDINATES IN LINES ARE FULL.
 		// IF SO, CLEAR THEM AND COLLAPSE THE LINES ABOVE.
-		var collapsedLines = [];
+		var collapsedLine = []
 
 		for(var j = 0; j < lines.length; j++)
 			{
@@ -601,13 +601,16 @@ Tetris.Game.prototype = {
 			if(sum == (this.numBlocksX*this.occupiedValue))
 				{
 				this.updateScore(this.scoreValue + 50);
-				collapsedLines.push(lines[j]);
+				collapsedLine.push(lines[j]);
 				this.cleanLine(lines[j]);
+				j = 99;
 				}
 			}
-		if(collapsedLines.length)
+
+		if(collapsedLine.length)
 			{
-			this.collapse(collapsedLines);
+			this.collapse(collapsedLine);
+			this.checkLines(lines)
 			}
 		},
 
