@@ -367,7 +367,7 @@ Tetris.Game.prototype = {
 		var moveRight = this.cursors.right.isDown || this.keyD.isDown;
 
 		// CHECKING IF THE USER IS PRESSING THE LEFT KEY
-		if (moveLeft==true || (this.stick.isDown==true && this.stick.octant==180))
+		if (moveLeft==true || (this.stick.isDown==true && this.stick.octant==180) || (this.stick.isDown==true && this.stick.octant==135))
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
 			if (this.getCurrentTime()-this.currentMovementTimerLeft > this.movementLag)
@@ -385,7 +385,7 @@ Tetris.Game.prototype = {
 			}
 
 		// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
-		if (moveRight==true || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
+		if (moveRight==true || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)) || (this.stick.isDown==true && this.stick.octant==45))
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
 			if (this.getCurrentTime()-this.currentMovementTimerRight > this.movementLag)
@@ -403,7 +403,7 @@ Tetris.Game.prototype = {
 			}
 
 		// CHECKING IF THE USER IS PRESSING THE DOWN KEY
-		if (moveDown==true || (this.stick.isDown==true && this.stick.octant==90))
+		if (moveDown==true || (this.stick.isDown==true && this.stick.octant==90) || (this.stick.isDown==true && this.stick.octant==45) || (this.stick.isDown==true && this.stick.octant==135))
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
 			if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag)
