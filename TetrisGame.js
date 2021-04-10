@@ -334,7 +334,7 @@ Tetris.Game.prototype = {
 		this.stick.visible = false;
 
 		// CHECKING IF THE PREVIOUS GAME WAS OVER
-		if (!this.isGameOver==true)
+		if (this.isGameOver==true)
 			{
 			// SHOWING THE GAME OVER TOAST
 			this.showToast(STRING_GAMEOVER);
