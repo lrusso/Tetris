@@ -846,7 +846,7 @@ function Tetromino()
 		}
 	}
 
-// CHECKING EVERY 100 MS IF THE DOCUMENT HAS FOCUS
+// CHECKING EVERY 200 MS IF THE DOCUMENT HAS FOCUS
 setInterval(function()
 	{
 	try
@@ -866,7 +866,7 @@ setInterval(function()
 		catch(err)
 		{
 		}
-	}, 100);
+	}, 200);
 
 // SETTING THE DEFAULT RENDERER MODE
 var rendererMode = Phaser.WEBGL;
