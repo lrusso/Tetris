@@ -324,52 +324,88 @@ Tetris.Game.prototype = {
 
 	update: function()
 		{
-		if (this.cursors.left.isDown || this.keyA.isDown || (this.stick.isDown==true && this.stick.octant==180))
+		// CHECKING IF THE TAB IS ACTIVE
+		if (isTabActive==true)
 			{
-			if (this.getCurrentTime()-this.currentMovementTimerLeft > this.movementLag)
+			// RESUMING THE GAME
+			this.timer.resume();
+
+			// CHECKING IF THE USER IS PRESSING THE LEFT KEY
+			if (this.cursors.left.isDown || this.keyA.isDown || (this.stick.isDown==true && this.stick.octant==180))
 				{
-				if(this.canMove(this.slide,"left"))
+				// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
+				if (this.getCurrentTime()-this.currentMovementTimerLeft > this.movementLag)
 					{
-					this.move(this.slide,this.slideCenter,"left",1);
+					// CHECKING IF THE MOVEMENT IS POSSIBLE
+					if(this.canMove(this.slide,"left")==true)
+						{
+						// MOVING THE PIECE
+						this.move(this.slide,this.slideCenter,"left",1);
+						}
+
+					// RESETTING THE TIME COUNTER FOR THE LEFT KEY
+					this.currentMovementTimerLeft = this.getCurrentTime();
 					}
-				this.currentMovementTimerLeft = this.getCurrentTime();
+				}
+
+			// CHECKING IF THE USER IS PRESSING THE RIGHT KEY
+			if (this.cursors.right.isDown || this.keyD.isDown || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
+				{
+				// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
+				if (this.getCurrentTime()-this.currentMovementTimerRight > this.movementLag)
+					{
+					// CHECKING IF THE MOVEMENT IS POSSIBLE
+					if(this.canMove(this.slide,"right")==true)
+						{
+						// MOVING THE PIECE
+						this.move(this.slide,this.slideCenter,"right",1);
+						}
+
+					// RESETTING THE TIME COUNTER FOR THE RIGHT KEY
+					this.currentMovementTimerRight = this.getCurrentTime();
+					}
+				}
+
+			// CHECKING IF THE USER IS PRESSING THE DOWN KEY
+			if (this.cursors.down.isDown || this.keyS.isDown || (this.stick.isDown==true && this.stick.octant==90))
+				{
+				// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
+				if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag)
+					{
+					// CHECKING IF THE MOVEMENT IS POSSIBLE
+					if(this.canMove(this.slide,"down")==true)
+						{
+						// MOVING THE PIECE
+						this.move(this.slide,this.slideCenter,"down",1);
+						}
+
+					// RESETTING THE TIME COUNTER FOR THE DOWN KEY
+					this.currentMovementTimerDown = this.getCurrentTime();
+					}
+				}
+
+			// CHECKING IF THE USER IS PRESSING THE UP KEY
+			if (this.cursors.up.isDown || this.keyW.isDown || (this.stick.isDown==true && this.stick.octant==270))
+				{
+				// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
+				if (this.getCurrentTime()-this.currentMovementTimerUp > this.movementLag * 1.5)
+					{
+					// CHECKING IF THE MOVEMENT IS POSSIBLE
+					if(this.canMove(this.rotate,"counterclockwise")==true)
+						{
+						// MOVING THE PIECE
+						this.move(this.rotate,null,"counterclockwise",1);
+						}
+
+					// RESETTING THE TIME COUNTER FOR THE UP KEY
+					this.currentMovementTimerUp = this.getCurrentTime();
+					}
 				}
 			}
-
-		if (this.cursors.right.isDown || this.keyD.isDown || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
+			else
 			{
-			if (this.getCurrentTime()-this.currentMovementTimerRight > this.movementLag)
-				{
-				if(this.canMove(this.slide,"right"))
-					{
-					this.move(this.slide,this.slideCenter,"right",1);
-					}
-				this.currentMovementTimerRight = this.getCurrentTime();
-				}
-			}
-
-		if (this.cursors.down.isDown || this.keyS.isDown || (this.stick.isDown==true && this.stick.octant==90))
-			{
-			if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag)
-				{
-				if(this.canMove(this.slide,"down"))
-					{
-					this.move(this.slide,this.slideCenter,"down",1);
-					}
-				this.currentMovementTimerDown = this.getCurrentTime();
-				}
-			}
-
-		if (this.cursors.up.isDown || this.keyW.isDown || (this.stick.isDown==true && this.stick.octant==270))
-			{
-			if (this.getCurrentTime()-this.currentMovementTimerUp > this.movementLag * 1.5)
-				{
-				if(this.canMove(this.rotate,"counterclockwise"))
-					{
-					this.move(this.rotate,null,"counterclockwise",1);
-					}
-				this.currentMovementTimerUp = this.getCurrentTime();
-				}
+			// PAUSING THE GAME
+			this.timer.pause();
 			}
 		},
 
@@ -612,7 +648,7 @@ Tetris.Game.prototype = {
 
 	fall: function()
 		{
-		if(this.canMove(this.slide,"down"))
+		if(this.canMove(this.slide,"down")==true)
 			{
 			this.move(this.slide,this.slideCenter,"down",0);
 			}
@@ -821,6 +857,23 @@ function Tetromino()
 		return conflict;
 		}
 	}
+
+// VARIABLE TO CHECK IF THE TAB IS ACTIVE
+var isTabActive = true;
+
+// CHECKING EVERY 250 MS IF THE TAB IS ACTIVE
+setInterval(function()
+	{
+	// CHECKING IF THE DOCUMENT HAS FOCUS
+	if(document.hasFocus()==true)
+		{
+		isTabActive = true;
+		}
+		else
+		{
+		isTabActive = false
+		}
+}, 250);
 
 // SETTING THE DEFAULT RENDERER MODE
 var rendererMode = Phaser.WEBGL;
