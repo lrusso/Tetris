@@ -934,8 +934,8 @@ function Tetromino()
 		}
 	}
 
-// WORKAROUND FOR IOS - CHECKING EVERY 200 MS IF THE DOCUMENT IS HIDDEN IN ORDER TO PAUSE OR RESUME THE GAME
-setInterval(function(){try{if(document.hidden==false){game.paused=false;}else{game.paused=true;}}catch(err){}},200);
+// WORKAROUND FOR IOS - UPDATING EVERY 200 MS THE GAME STATE ACCORDING THE DOCUMENT VISIBILITY
+setInterval(function(){try{game.paused=document.hidden;}catch(err){}},200);
 
 // SETTING THE DEFAULT RENDERER MODE
 var rendererMode = Phaser.WEBGL;
