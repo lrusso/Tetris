@@ -83,7 +83,7 @@ Tetris.Preloader.prototype = {
 
 	create: function()
 		{
-		this.state.start("Tetris.Game");
+		this.state.start("Tetris.Splash");
 		}
 	};
 
