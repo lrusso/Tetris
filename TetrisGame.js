@@ -290,9 +290,15 @@ Tetris.Game.prototype = {
 		// ADDING THE CURSOR KEYS LISTENER
 		this.cursors = game.input.keyboard.createCursorKeys();
 
+		// REGISTERING THE 'A', 'S', 'D' AND 'W' KEYS
+		this.keyA = game.input.keyboard.addKey(Phaser.Keyboard.A);
+		this.keyS = game.input.keyboard.addKey(Phaser.Keyboard.S);
+		this.keyD = game.input.keyboard.addKey(Phaser.Keyboard.D);
+		this.keyW = game.input.keyboard.addKey(Phaser.Keyboard.W);
+
 		// TIMER TO MAKE THE THE FALLING TETROMINO FALL
 		this.timer = game.time.events;
-		loop = this.timer.loop(this.timeOut, this.fall, this);
+		this.loop = this.timer.loop(this.timeOut, this.fall, this);
 		this.timer.start();
 
 		// ADDING THE PAD PLUGIN
@@ -314,7 +320,7 @@ Tetris.Game.prototype = {
 
 	update: function()
 		{
-		if (this.cursors.left.isDown || (this.stick.isDown==true && this.stick.octant==180))
+		if (this.cursors.left.isDown || this.keyA.isDown || (this.stick.isDown==true && this.stick.octant==180))
 			{
 			if (this.getCurrentTime()-this.currentMovementTimerLeft > this.movementLag)
 				{
@@ -326,7 +332,7 @@ Tetris.Game.prototype = {
 				}
 			}
 
-		if (this.cursors.right.isDown || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
+		if (this.cursors.right.isDown || this.keyD.isDown || (this.stick.isDown==true && (this.stick.octant==0 || this.stick.octant==360)))
 			{
 			if (this.getCurrentTime()-this.currentMovementTimerRight > this.movementLag)
 				{
@@ -338,7 +344,7 @@ Tetris.Game.prototype = {
 				}
 			}
 
-		if (this.cursors.down.isDown || (this.stick.isDown==true && this.stick.octant==90))
+		if (this.cursors.down.isDown || this.keyS.isDown || (this.stick.isDown==true && this.stick.octant==90))
 			{
 			if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag)
 				{
@@ -350,7 +356,7 @@ Tetris.Game.prototype = {
 				}
 			}
 
-		if (this.cursors.up.isDown || (this.stick.isDown==true && this.stick.octant==270))
+		if (this.cursors.up.isDown || this.keyW.isDown || (this.stick.isDown==true && this.stick.octant==270))
 			{
 			if (this.getCurrentTime()-this.currentMovementTimerUp > this.movementLag * 1.5)
 				{
