@@ -935,7 +935,7 @@ function Tetromino()
 	}
 
 // WORKAROUND FOR IOS - UPDATING EVERY 200 MS THE GAME STATE ACCORDING THE DOCUMENT VISIBILITY
-setInterval(function(){try{game.paused=document.hidden;}catch(err){}},200);
+setInterval(function(){try{if(isMobileDevice()==true){game.paused=document.hidden;}else{if(document.hasFocus()==true){game.paused=false;}else{game.paused=true;}}}catch(err){}},200);
 
 // SETTING THE DEFAULT RENDERER MODE
 var rendererMode = Phaser.WEBGL;
