@@ -335,7 +335,7 @@ Tetris.Game.prototype = {
 		this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
 
 		// ADDING THE STICK FOR MOBILE DEVICES
-		this.stick = this.pad.addDPad(85, 525, 0, "dpad");
+		this.stick = this.pad.addDPad(85, 521, 0, "dpad");
 		this.stick.sprite.scale.set(0.8);
 		this.stick.sprite.alpha = 0.4;
 		this.stick.visible = false;
