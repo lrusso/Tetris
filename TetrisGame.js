@@ -83,7 +83,7 @@ Tetris.Preloader.prototype = {
 
 	create: function()
 		{
-		this.state.start("Tetris.Splash");
+		this.state.start("Tetris.Game");
 		}
 	};
 
@@ -338,6 +338,8 @@ Tetris.Game.prototype = {
 		this.stick = this.pad.addDPad(85, 521, 0, "dpad");
 		this.stick.sprite.scale.set(0.8);
 		this.stick.sprite.alpha = 0.4;
+		this.stick.sprite.inputEnabled = true;
+		this.stick.sprite.events.onInputDown.add(function(){this.update();},this);
 		this.stick.visible = false;
 
 		// CHECKING IF THE PREVIOUS GAME WAS OVER
