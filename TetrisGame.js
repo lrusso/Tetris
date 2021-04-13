@@ -278,11 +278,11 @@ Tetris.Game.prototype = {
 		this.highScoreBackground.drawRoundedRect(188, -52, 120, 40, 10);
 
 		// ADDING THE HIGH SCORE ICON SHADOW
-		this.highScoreIconShadow = game.add.sprite(197, -43, "imageHighScore");
+		this.highScoreIconShadow = game.add.sprite(197, -42.5, "imageHighScore");
 		this.highScoreIconShadow.tint = 0x000000;
 
 		// ADDING THE HIGH SCORE ICON
-		this.highScoreIcon = game.add.sprite(195, -45, "imageHighScore");
+		this.highScoreIcon = game.add.sprite(195, -44.5, "imageHighScore");
 
 		// ADDING THE HIGH SCORE LABEL SHADOW
 		this.highScoreLabelShadow = game.add.bitmapText(228, -44, "ArialBlackWhite", this.getHighscore(), 27);
