@@ -254,44 +254,44 @@ Tetris.Game.prototype = {
 		this.nextPieceBackground = game.add.graphics();
 		this.nextPieceBackground.beginFill(0x022C5C, 1);
 		this.nextPieceBackground.lineStyle(2, 0x0046A9, 1);
-		this.nextPieceBackground.drawRoundedRect(129, -52, 45, 40, 10);
+		this.nextPieceBackground.drawRoundedRect(128.75, -52, 45, 40, 10);
 
 		// ADDING THE SCORE BACKGROUND
 		this.scoreBackground = game.add.graphics();
 		this.scoreBackground.beginFill(0x000000, 0.7);
 		this.scoreBackground.lineStyle(2, 0x383838, 1);
-		this.scoreBackground.drawRoundedRect(12, -52, 100, 40, 10);
+		this.scoreBackground.drawRoundedRect(12, -52, 102, 40, 10);
 
 		// ADDING THE SCORE LABEL SHADOW
-		this.scoreLabelShadow = game.add.bitmapText(24, -45, "ArialBlackWhite", "0", 25);
-		this.scoreLabelShadow.height = 30;
+		this.scoreLabelShadow = game.add.bitmapText(22, -44, "ArialBlackWhite", "0", 27);
+		this.scoreLabelShadow.height = 32;
 		this.scoreLabelShadow.tint = 0x000000;
 
 		// ADDING THE SCORE LABEL
-		this.scoreLabel = game.add.bitmapText(21, -45, "ArialBlackWhite", "0", 25);
-		this.scoreLabel.height = 30;
+		this.scoreLabel = game.add.bitmapText(19, -46, "ArialBlackWhite", "0", 27);
+		this.scoreLabel.height = 32;
 
 		// ADDING THE HIGH SCORE BACKGROUND
 		this.highScoreBackground = game.add.graphics();
 		this.highScoreBackground.beginFill(0x022C5C, 1);
 		this.highScoreBackground.lineStyle(2, 0x0046A9, 1);
-		this.highScoreBackground.drawRoundedRect(190, -52, 120, 40, 10);
+		this.highScoreBackground.drawRoundedRect(188, -52, 120, 40, 10);
 
 		// ADDING THE HIGH SCORE ICON SHADOW
-		this.highScoreIconShadow = game.add.sprite(199, -45, "imageHighScore");
+		this.highScoreIconShadow = game.add.sprite(197, -43, "imageHighScore");
 		this.highScoreIconShadow.tint = 0x000000;
 
 		// ADDING THE HIGH SCORE ICON
-		this.highScoreIcon = game.add.sprite(197, -45, "imageHighScore");
+		this.highScoreIcon = game.add.sprite(195, -45, "imageHighScore");
 
 		// ADDING THE HIGH SCORE LABEL SHADOW
-		this.highScoreLabelShadow = game.add.bitmapText(232, -45, "ArialBlackWhite", this.getHighscore(), 25);
-		this.highScoreLabelShadow.height = 30;
+		this.highScoreLabelShadow = game.add.bitmapText(228, -44, "ArialBlackWhite", this.getHighscore(), 27);
+		this.highScoreLabelShadow.height = 32;
 		this.highScoreLabelShadow.tint = 0x000000;
 
 		// ADDING THE HIGH SCORE LABEL
-		this.highScoreLabel = game.add.bitmapText(229, -45, "ArialBlackWhite", this.getHighscore(), 25);
-		this.highScoreLabel.height = 30;
+		this.highScoreLabel = game.add.bitmapText(225, -46, "ArialBlackWhite", this.getHighscore(), 27);
+		this.highScoreLabel.height = 32;
 
 		// 2D ARRAY OF numBlocksX*numBlocksY CELLS CORRESPONDING TO THE PLAYABLE SCENE.
 		// WILL CONTAINS 0 FOR EMPTY CELLS.
@@ -615,7 +615,7 @@ Tetris.Game.prototype = {
 			// A LINE IS COMPLETED IF ALL THE CELLS OF THAT LINE ARE MARKED AS OCCUPIED
 			if(sum == (this.numBlocksX*this.occupiedValue))
 				{
-				this.updateScore(this.scoreValue + 50);
+				this.updateScore(this.scoreValue + 20);
 				collapsedLine.push(lines[j]);
 				this.cleanLine(lines[j]);
 				j = 99;
@@ -734,6 +734,13 @@ Tetris.Game.prototype = {
 
 	updateScore: function(newScore)
 		{
+		// CHECKING IF THE USER HITS THE MAXIMUM SCORE POSSIBLE
+		if (newScore>9999)
+			{
+			// UPDATING THE USER SCORE
+			newScore = 9999;
+			}
+
 		// UPDATING THE SCORE WITH THE NEW VALUE
 		this.scoreValue = newScore;
 
