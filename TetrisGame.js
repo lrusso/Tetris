@@ -889,7 +889,7 @@ function Tetromino()
 			// COMPUTE THE COORDINATES OF EACH BLOCK OF THE TETROMINO, USING IT'S OFFSET FROM THE CENTER
 			var x = c_x + game.state.states["Tetris.Game"].offsets[this.shape][i][0];
 			var y = c_y + game.state.states["Tetris.Game"].offsets[this.shape][i][1];
-			var sprite = game.add.sprite(x * 32, y * 32, 'blocks', this.color);
+			var sprite = game.add.sprite(x * 32, y * 32, "blocks", this.color);
 			this.sprites.push(sprite);
 			this.cells.push([x, y]);
 
