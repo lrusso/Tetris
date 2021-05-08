@@ -340,6 +340,7 @@ Tetris.Game.prototype = {
 		this.stick.sprite.alpha = 0.4;
 		this.stick.sprite.inputEnabled = true;
 		this.stick.sprite.events.onInputDown.add(function(){this.update();},this);
+		this.stick.enabled = false;
 		this.stick.visible = false;
 
 		// CHECKING IF THE PREVIOUS GAME WAS OVER
@@ -357,6 +358,9 @@ Tetris.Game.prototype = {
 			{
 			// SHOWING THE STICK FOR MOBILE DEVICES
 			this.stick.visible = true;
+
+			// ENABLING THE STICK FOR MOBILE DEVICES
+			this.stick.enabled = true;
 			}
 		},
 
