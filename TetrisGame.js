@@ -111,6 +111,9 @@ Tetris.Splash.prototype = {
 		// SETTING THE BACKGROUND COLOR
 		this.stage.backgroundColor = "#FFFFFF";
 
+		// SHOWING THE BACKGROUND IMAGE
+		document.getElementsByClassName("background")[0].style.display = "block";
+
 		this.imageLogoPart1 = game.add.sprite(0, 0, "imageLogoPart1");
 		this.imageLogoPart1.scale.x = 0.7;
 		this.imageLogoPart1.scale.y = 0.7;
