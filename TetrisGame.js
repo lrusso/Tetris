@@ -179,6 +179,21 @@ Tetris.Game = function (game)
 	this.currentMovementTimerRight = null;
 
 	this.isMobileDevice = null;
+	this.nextPieceBackground = null;
+	this.scoreBackground = null;
+	this.scoreLabelShadow = null;
+	this.scoreLabel = null;
+	this.highScoreBackground = null;
+	this.highScoreIconShadow = null;
+	this.highScoreIcon = null;
+	this.highScoreLabelShadow = null;
+	this.highScoreLabel = null;
+	this.back_layer = null;
+	this.keyA = null;
+	this.keyS = null;
+	this.keyD = null;
+	this.keyW = null;
+	this.boardBorder = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -237,6 +252,21 @@ Tetris.Game.prototype = {
 		this.currentMovementTimerRight = 0;
 
 		this.isMobileDevice = null;
+		this.nextPieceBackground = null;
+		this.scoreBackground = null;
+		this.scoreLabelShadow = null;
+		this.scoreLabel = null;
+		this.highScoreBackground = null;
+		this.highScoreIconShadow = null;
+		this.highScoreIcon = null;
+		this.highScoreLabelShadow = null;
+		this.highScoreLabel = null;
+		this.back_layer = null;
+		this.keyA = null;
+		this.keyS = null;
+		this.keyD = null;
+		this.keyW = null;
+		this.boardBorder = null;
 		},
 
 	create: function()
@@ -296,6 +326,9 @@ Tetris.Game.prototype = {
 		this.highScoreLabel = game.add.bitmapText(225, -45.5, "ArialBlackWhite", this.getHighscore(), 27);
 		this.highScoreLabel.height = 32;
 
+		// ADDING THE BACK LAYER GROUP
+		this.back_layer = game.add.group();
+
 		// 2D ARRAY OF numBlocksX*numBlocksY CELLS CORRESPONDING TO THE PLAYABLE SCENE.
 		// WILL CONTAINS 0 FOR EMPTY CELLS.
 		// WILL CONTAINS 1 IF THERE IS ALREADY A BLOCK FROM THE CURRENT TETROMINO.
@@ -345,6 +378,11 @@ Tetris.Game.prototype = {
 		this.stick.sprite.events.onInputDown.add(function(){this.update();},this);
 		this.stick.enabled = false;
 		this.stick.visible = false;
+
+		// ADDING A BOARD BORDER
+		this.boardBorder = game.add.graphics(0, 0);
+		this.boardBorder.lineStyle(1, 0x383838, 1);
+		this.boardBorder.drawRect(0, 0, 319, 608);
 
 		// CHECKING IF THE PREVIOUS GAME WAS OVER
 		if (this.isGameOver==true)
@@ -892,7 +930,7 @@ function Tetromino()
 			// COMPUTE THE COORDINATES OF EACH BLOCK OF THE TETROMINO, USING IT'S OFFSET FROM THE CENTER
 			var x = c_x + game.state.states["Tetris.Game"].offsets[this.shape][i][0];
 			var y = c_y + game.state.states["Tetris.Game"].offsets[this.shape][i][1];
-			var sprite = game.add.sprite(x * 32, y * 32, "blocks", this.color);
+			var sprite = game.state.states["Tetris.Game"].back_layer.create(x * 32, y * 32, "blocks", this.color);
 			this.sprites.push(sprite);
 			this.cells.push([x, y]);
 
