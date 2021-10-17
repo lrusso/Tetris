@@ -336,7 +336,6 @@ Tetris.Menu.prototype = {
 		}
 	};
 
-
 Tetris.Game = function (game)
 	{
 	this.numBlocksY = null;
@@ -593,7 +592,6 @@ Tetris.Game.prototype = {
 			// ENABLING THE STICK FOR MOBILE DEVICES
 			this.stick.enabled = true;
 			}
-
 
 		// CHECKING IF THE BACKGROUND MUSIC PLAYER IS CREATED
 		if(this.musicPlayer!=null)
