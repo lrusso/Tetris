@@ -986,6 +986,17 @@ Tetris.Game.prototype = {
 		// SETTING THE GAME OVER STATUS
 		this.isGameOver = true;
 
+		// CHECKING IF THE SOUND IS ENABLED
+		if (GAME_SOUND_ENABLED==true)
+			{
+			// CHECKING IF THE MUSIC PLAYER IS CREATED
+			if(this.musicPlayer!=null)
+				{
+				// DESTROYING THE MUSIC PLAYER
+				this.musicPlayer.destroy();
+				}
+			}
+
 		// RESTARTING THE STATE
 		this.state.restart();
 		},
