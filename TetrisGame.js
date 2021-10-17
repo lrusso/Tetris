@@ -1041,7 +1041,7 @@ Tetris.Game.prototype = {
 			this.audioPlayer = this.add.audio("audioLine");
 
 			// SETTING THE AUDIO LINE VOLUME
-			this.audioPlayer.volume = 1;
+			this.audioPlayer.volume = 0.5;
 
 			// PLAYING THE AUDIO LINE SOUND
 			this.audioPlayer.play();
