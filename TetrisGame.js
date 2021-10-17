@@ -613,7 +613,7 @@ Tetris.Game.prototype = {
 				game.state.states["Tetris.Game"].musicPlayer = game.state.states["Tetris.Game"].add.audio("musicBackground");
 
 				// SETTING THE BACKGROUND MUSIC VOLUME
-				game.state.states["Tetris.Game"].musicPlayer.volume = 0.5;
+				game.state.states["Tetris.Game"].musicPlayer.volume = 1;
 
 				// SETTING THAT THE BACKGROUND MUSIC WILL BE LOOPING
 				game.state.states["Tetris.Game"].musicPlayer.loop = true;
@@ -1041,7 +1041,7 @@ Tetris.Game.prototype = {
 			this.audioPlayer = this.add.audio("audioLine");
 
 			// SETTING THE AUDIO LINE VOLUME
-			this.audioPlayer.volume = 0.5;
+			this.audioPlayer.volume = 1;
 
 			// PLAYING THE AUDIO LINE SOUND
 			this.audioPlayer.play();
