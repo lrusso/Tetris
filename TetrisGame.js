@@ -365,6 +365,7 @@ Tetris.Game = function (game)
 
 	this.isMobileDevice = null;
 	this.backgroundLayer = null;
+	this.pauseLayer = false;
 	this.pauseHandler = null;
 	this.pauseHandlerSprite = null;
 	this.resumeHandler = null;
@@ -375,6 +376,7 @@ Tetris.Game = function (game)
 	this.highScore = null;
 	this.highScoreLabel = null;
 	this.back_layer = null;
+	this.paused = null;
 	this.keyA = null;
 	this.keyS = null;
 	this.keyD = null;
@@ -382,7 +384,6 @@ Tetris.Game = function (game)
 	this.boardBorder = null;
 	this.musicPlayer = null;
 	this.audioPlayer = null;
-	this.paused = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
 	function resizeF()
@@ -442,6 +443,7 @@ Tetris.Game.prototype = {
 
 		this.isMobileDevice = null;
 		this.backgroundLayer = null;
+		this.pauseLayer = false;
 		this.pauseHandler = null;
 		this.pauseHandlerSprite = null;
 		this.resumeHandler = null;
@@ -452,6 +454,7 @@ Tetris.Game.prototype = {
 		this.highScore = null;
 		this.highScoreLabel = null;
 		this.back_layer = null;
+		this.paused = false;
 		this.keyA = null;
 		this.keyS = null;
 		this.keyD = null;
@@ -459,7 +462,6 @@ Tetris.Game.prototype = {
 		this.boardBorder = null;
 		this.musicPlayer = null;
 		this.audioPlayer = null;
-		this.paused = false;
 		},
 
 	create: function()
@@ -471,9 +473,9 @@ Tetris.Game.prototype = {
 		game.world.setBounds(0, -64, 600, 608);
 
 		// ADDING THE SEMI TRANSPARENT BACKGROUND LAYER
-		this.backgroundLayer = game.add.graphics(0, -100);
+		this.backgroundLayer = game.add.graphics(0, -64);
 		this.backgroundLayer.beginFill(0x000000, 0.5);
-		this.backgroundLayer.drawRect(0, 0, 320, 200);
+		this.backgroundLayer.drawRect(0, 0, 320, 64);
 
 		// ADDING THE BOARD IMAGE
 		game.add.tileSprite(0, 0, 320, 608, "imageGameBoard");
@@ -494,6 +496,15 @@ Tetris.Game.prototype = {
 			// HIDING THE GAME PAUSE HANDLER BACKGROUND AND ICON
 			this.pauseHandler.visible = false;
 			this.pauseHandlerSprite.visible = false;
+
+			// SHOWING THE SEMI TRANSPARENT PAUSE LAYER
+			this.pauseLayer.visible = true;
+
+			// DISABLING THE STICK
+			this.stick.enabled = false;
+
+			// DECREASING THE STICK TRANSPARENCY
+			this.stick.alpha = 0.1;
 
 			// PAUSING THE GAME
 			this.paused = true;
@@ -518,6 +529,15 @@ Tetris.Game.prototype = {
 			// HIDING THE GAME RESUME HANDLER BACKGROUND AND ICON
 			this.resumeHandler.visible = false;
 			this.resumeHandlerSprite.visible = false;
+
+			// HIDING THE SEMI TRANSPARENT PAUSE LAYER
+			this.pauseLayer.visible = false;
+
+			// ENABLING THE STICK
+			this.stick.enabled = true;
+
+			// INCREASING THE STICK TRANSPARENCY
+			this.stick.alpha = 0.4;
 
 			// RESUMING THE GAME
 			this.paused = false;
@@ -704,6 +724,12 @@ Tetris.Game.prototype = {
 		this.boardBorder = game.add.graphics(0, 0);
 		this.boardBorder.lineStyle(1, 0x383838, 1);
 		this.boardBorder.drawRect(0, 0, 319, 608);
+
+		// ADDING THE SEMI TRANSPARENT PAUSE LAYER
+		this.pauseLayer = game.add.graphics(0, 0);
+		this.pauseLayer.beginFill(0x000000, 0.7);
+		this.pauseLayer.drawRect(0, 0, 320, 608);
+		this.pauseLayer.visible = false;
 
 		// CHECKING IF THE PREVIOUS GAME WAS OVER
 		if (this.isGameOver==true)
