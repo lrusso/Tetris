@@ -634,18 +634,18 @@ Tetris.Game.prototype = {
 		this.nextPieceBackground.drawRoundedRect(128.75, -52, 45, 40, 10);
 
 		// ADDING THE SCORE LABEL
-		this.score = game.add.bitmapText(185, -50, "ArialBlackWhite", "SCORE:", 16);
+		this.scoreLabel = game.add.bitmapText(185, -50, "ArialBlackWhite", "SCORE:", 16);
 
 		// ADDING THE SCORE VALUE
-		this.scoreLabel = game.add.bitmapText(260, -50, "ArialBlackWhite", "0", 16);
+		this.score = game.add.bitmapText(260, -50, "ArialBlackWhite", "0", 16);
 
 		// ADDING THE HIGH SCORE LABEL
-		this.highScore = game.add.bitmapText(210, -25, "ArialBlackWhite", "TOP:", 16);
-		this.highScore.tint = 0XE6E600;
+		this.highScoreLabel = game.add.bitmapText(210, -25, "ArialBlackWhite", "TOP:", 16);
+		this.highScoreLabel.tint = 0XE6E600;
 
 		// ADDING THE HIGH SCORE VALUE
-		this.highScoreLabel = game.add.bitmapText(260, -25, "ArialBlackWhite", this.getHighscore(), 16);
-		this.highScoreLabel.tint = 0XE6E600;
+		this.highScore = game.add.bitmapText(260, -25, "ArialBlackWhite", this.getHighscore(), 16);
+		this.highScore.tint = 0XE6E600;
 
 		// ADDING THE BACK LAYER GROUP
 		this.back_layer = game.add.group();
@@ -1158,7 +1158,7 @@ Tetris.Game.prototype = {
 		this.scoreValue = newScore;
 
 		// UPDATING THE SCORE WITH THE NEW VALUE
-		this.scoreLabel.setText(newScore);
+		this.score.setText(newScore);
 
 		// CHECKING IF THE CURRENT SCORE HITS THE HIGH SCORE
 		if (this.scoreValue>this.getHighscore())
@@ -1167,7 +1167,7 @@ Tetris.Game.prototype = {
 			this.setHighscore(this.scoreValue);
 
 			// UPDATING THE HIGHSCORE WITH THE NEW VALUE
-			this.highScoreLabel.setText(newScore);
+			this.highScore.setText(newScore);
 			}
 
 		// CHECKING IF THE SOUND IS ENABLED
