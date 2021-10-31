@@ -360,8 +360,11 @@ Tetris.Game = function (game)
 	this.currentMovementTimerRight = null;
 
 	this.isMobileDevice = null;
+	this.backgroundLayer = null;
 	this.nextPieceBackground = null;
+	this.score = null;
 	this.scoreLabel = null;
+	this.highScore = null;
 	this.highScoreLabel = null;
 	this.back_layer = null;
 	this.keyA = null;
@@ -429,8 +432,11 @@ Tetris.Game.prototype = {
 		this.currentMovementTimerRight = 0;
 
 		this.isMobileDevice = null;
+		this.backgroundLayer = null;
 		this.nextPieceBackground = null;
+		this.score = null;
 		this.scoreLabel = null;
+		this.highScore = null;
 		this.highScoreLabel = null;
 		this.back_layer = null;
 		this.keyA = null;
@@ -450,11 +456,10 @@ Tetris.Game.prototype = {
 		// SETTING THE WORLD BOUNDS
 		game.world.setBounds(0, -64, 600, 608);
 
-		// ADDING THE BACKGROUND IMAGE
-
-		var graphics = game.add.graphics(0, -100);
-		graphics.beginFill(0x000000, 0.5);
-		graphics.drawRect(0, 0, 320, 200);
+		// ADDING THE SEMI TRANSPARENT BACKGROUND LAYER
+		this.backgroundLayer = game.add.graphics(0, -100);
+		this.backgroundLayer.beginFill(0x000000, 0.5);
+		this.backgroundLayer.drawRect(0, 0, 320, 200);
 
 		// ADDING THE BOARD IMAGE
 		game.add.tileSprite(0, 0, 320, 608, "imageGameBoard");
