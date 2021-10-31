@@ -500,7 +500,7 @@ Tetris.Game.prototype = {
 			},this);
 
 		// ADDING THE GAME PAUSE HANDLER SPRITE
-		this.pauseHandlerSprite = game.add.sprite(20, -44.5, "imageGamePause");
+		this.pauseHandlerSprite = game.add.sprite(20, -44, "imageGamePause");
 
 		// ADDING THE GAME PAUSE HANDLER BACKGROUND
 		this.resumeHandler = game.add.graphics();
