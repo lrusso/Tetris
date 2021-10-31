@@ -641,11 +641,11 @@ Tetris.Game.prototype = {
 
 		// ADDING THE HIGH SCORE LABEL
 		this.highScore = game.add.bitmapText(210, -25, "ArialBlackWhite", "TOP:", 16);
-		this.highScore.tint = 0xFFFF00;
+		this.highScore.tint = 0XE6E600;
 
 		// ADDING THE HIGH SCORE VALUE
 		this.highScoreLabel = game.add.bitmapText(260, -25, "ArialBlackWhite", this.getHighscore(), 16);
-		this.highScoreLabel.tint = 0xFFFF00;
+		this.highScoreLabel.tint = 0XE6E600;
 
 		// ADDING THE BACK LAYER GROUP
 		this.back_layer = game.add.group();
