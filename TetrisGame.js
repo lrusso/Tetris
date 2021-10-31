@@ -381,6 +381,8 @@ Tetris.Game = function (game)
 	this.keyS = null;
 	this.keyD = null;
 	this.keyW = null;
+	this.keyP = null;
+	this.keySpace = null;
 	this.boardBorder = null;
 	this.musicPlayer = null;
 	this.audioPlayer = null;
@@ -459,6 +461,8 @@ Tetris.Game.prototype = {
 		this.keyS = null;
 		this.keyD = null;
 		this.keyW = null;
+		this.keyP = null;
+		this.keySpace = null;
 		this.boardBorder = null;
 		this.musicPlayer = null;
 		this.audioPlayer = null;
@@ -487,28 +491,7 @@ Tetris.Game.prototype = {
 		this.pauseHandler.drawRoundedRect(10, -52, 45, 40, 10);
 		this.pauseHandler.inputEnabled = true;
 		this.pauseHandler.input.useHandCursor = true;
-		this.pauseHandler.events.onInputUp.add(function()
-			{
-			// SHOWING THE GAME RESUME HANDLER BACKGROUND AND ICON
-			this.resumeHandler.visible = true;
-			this.resumeHandlerSprite.visible = true;
-
-			// HIDING THE GAME PAUSE HANDLER BACKGROUND AND ICON
-			this.pauseHandler.visible = false;
-			this.pauseHandlerSprite.visible = false;
-
-			// SHOWING THE SEMI TRANSPARENT PAUSE LAYER
-			this.pauseLayer.visible = true;
-
-			// DISABLING THE STICK
-			this.stick.enabled = false;
-
-			// DECREASING THE STICK TRANSPARENCY
-			this.stick.alpha = 0.1;
-
-			// PAUSING THE GAME
-			this.paused = true;
-			},this);
+		this.pauseHandler.events.onInputUp.add(function(){this.pauseGame()},this);
 
 		// ADDING THE GAME PAUSE HANDLER SPRITE
 		this.pauseHandlerSprite = game.add.sprite(20, -44, "imageGamePause");
@@ -520,28 +503,7 @@ Tetris.Game.prototype = {
 		this.resumeHandler.drawRoundedRect(10, -52, 45, 40, 10);
 		this.resumeHandler.inputEnabled = true;
 		this.resumeHandler.input.useHandCursor = true;
-		this.resumeHandler.events.onInputUp.add(function()
-			{
-			// SHOWING THE GAME PAUSE HANDLER BACKGROUND AND ICON
-			this.pauseHandler.visible = true;
-			this.pauseHandlerSprite.visible = true;
-
-			// HIDING THE GAME RESUME HANDLER BACKGROUND AND ICON
-			this.resumeHandler.visible = false;
-			this.resumeHandlerSprite.visible = false;
-
-			// HIDING THE SEMI TRANSPARENT PAUSE LAYER
-			this.pauseLayer.visible = false;
-
-			// ENABLING THE STICK
-			this.stick.enabled = true;
-
-			// INCREASING THE STICK TRANSPARENCY
-			this.stick.alpha = 0.4;
-
-			// RESUMING THE GAME
-			this.paused = false;
-			},this);
+		this.resumeHandler.events.onInputUp.add(function(){this.resumeGame()},this);
 		this.resumeHandler.visible = false;
 
 		// ADDING THE GAME PAUSE HANDLER SPRITE
@@ -697,11 +659,13 @@ Tetris.Game.prototype = {
 		// ADDING THE CURSOR KEYS LISTENER
 		this.cursors = game.input.keyboard.createCursorKeys();
 
-		// REGISTERING THE 'A', 'S', 'D' AND 'W' KEYS
+		// REGISTERING THE 'A', 'S', 'D', 'W', 'P' AND SPACE KEYS
 		this.keyA = game.input.keyboard.addKey(Phaser.Keyboard.A);
 		this.keyS = game.input.keyboard.addKey(Phaser.Keyboard.S);
 		this.keyD = game.input.keyboard.addKey(Phaser.Keyboard.D);
 		this.keyW = game.input.keyboard.addKey(Phaser.Keyboard.W);
+		this.keyP = game.input.keyboard.addKey(Phaser.Keyboard.P);
+		this.keySpace = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		// TIMER TO MAKE THE THE FALLING TETROMINO FALL
 		this.timer = game.time.events;
@@ -784,6 +748,32 @@ Tetris.Game.prototype = {
 
 	update: function()
 		{
+		// CHECKING IF THE USER IS PRESSING THE 'P' OR SPACE KEY
+		if (this.keyP.isDown || this.keySpace.isDown)
+			{
+			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
+			if (this.getCurrentTime()-this.currentMovementTimerLeft > this.movementLag)
+				{
+				// RESETTING THE TIME COUNTER FOR THE LEFT KEY
+				this.currentMovementTimerLeft = this.getCurrentTime();
+
+				// CHECKING IF THE GAME IS PAUSED
+				if (this.paused==true)
+					{
+					// RESUMING THE GAME
+					this.resumeGame();
+					}
+					else
+					{
+					// PAUSING THE GAME
+					this.pauseGame();
+					}
+
+				// RETURNING FOR THE NEXT UPDATE
+				return;
+				}
+			}
+
 		// CHECKING IF THE GAME IS PAUSED AND PREVENTING ANY ACTION
 		if (this.paused==true){return}
 
@@ -1215,6 +1205,52 @@ Tetris.Game.prototype = {
 			// PLAYING THE AUDIO LINE SOUND
 			this.audioPlayer.play();
 			}
+		},
+
+	pauseGame: function()
+		{
+		// SHOWING THE GAME RESUME HANDLER BACKGROUND AND ICON
+		this.resumeHandler.visible = true;
+		this.resumeHandlerSprite.visible = true;
+
+		// HIDING THE GAME PAUSE HANDLER BACKGROUND AND ICON
+		this.pauseHandler.visible = false;
+		this.pauseHandlerSprite.visible = false;
+
+		// SHOWING THE SEMI TRANSPARENT PAUSE LAYER
+		this.pauseLayer.visible = true;
+
+		// DISABLING THE STICK
+		this.stick.enabled = false;
+
+		// DECREASING THE STICK TRANSPARENCY
+		this.stick.alpha = 0.1;
+
+		// PAUSING THE GAME
+		this.paused = true;
+		},
+
+	resumeGame: function()
+		{
+		// SHOWING THE GAME PAUSE HANDLER BACKGROUND AND ICON
+		this.pauseHandler.visible = true;
+		this.pauseHandlerSprite.visible = true;
+
+		// HIDING THE GAME RESUME HANDLER BACKGROUND AND ICON
+		this.resumeHandler.visible = false;
+		this.resumeHandlerSprite.visible = false;
+
+		// HIDING THE SEMI TRANSPARENT PAUSE LAYER
+		this.pauseLayer.visible = false;
+
+		// ENABLING THE STICK
+		this.stick.enabled = true;
+
+		// INCREASING THE STICK TRANSPARENCY
+		this.stick.alpha = 0.4;
+
+		// RESUMING THE GAME
+		this.paused = false;
 		},
 
 	getHighscore: function()
