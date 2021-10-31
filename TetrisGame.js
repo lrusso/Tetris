@@ -365,6 +365,10 @@ Tetris.Game = function (game)
 
 	this.isMobileDevice = null;
 	this.backgroundLayer = null;
+	this.pauseHandler = null;
+	this.pauseHandlerSprite = null;
+	this.resumeHandler = null;
+	this.resumeHandlerSprite = null;
 	this.nextPieceBackground = null;
 	this.score = null;
 	this.scoreLabel = null;
@@ -438,6 +442,10 @@ Tetris.Game.prototype = {
 
 		this.isMobileDevice = null;
 		this.backgroundLayer = null;
+		this.pauseHandler = null;
+		this.pauseHandlerSprite = null;
+		this.resumeHandler = null;
+		this.resumeHandlerSprite = null;
 		this.nextPieceBackground = null;
 		this.score = null;
 		this.scoreLabel = null;
@@ -471,54 +479,54 @@ Tetris.Game.prototype = {
 		game.add.tileSprite(0, 0, 320, 608, "imageGameBoard");
 
 		// ADDING THE GAME PAUSE HANDLER BACKGROUND
-		this.gamePauseHandler = game.add.graphics();
-		this.gamePauseHandler.beginFill(0x022C5C, 1);
-		this.gamePauseHandler.lineStyle(2, 0x0046A9, 1);
-		this.gamePauseHandler.drawRoundedRect(10, -52, 45, 40, 10);
-		this.gamePauseHandler.inputEnabled = true;
-		this.gamePauseHandler.input.useHandCursor = true;
-		this.gamePauseHandler.events.onInputUp.add(function()
+		this.pauseHandler = game.add.graphics();
+		this.pauseHandler.beginFill(0x022C5C, 1);
+		this.pauseHandler.lineStyle(2, 0x0046A9, 1);
+		this.pauseHandler.drawRoundedRect(10, -52, 45, 40, 10);
+		this.pauseHandler.inputEnabled = true;
+		this.pauseHandler.input.useHandCursor = true;
+		this.pauseHandler.events.onInputUp.add(function()
 			{
 			// SHOWING THE GAME RESUME HANDLER BACKGROUND AND ICON
-			this.gameResumeHandler.visible = true;
-			this.gameResumeHandlerSprite.visible = true;
+			this.resumeHandler.visible = true;
+			this.resumeHandlerSprite.visible = true;
 
 			// HIDING THE GAME PAUSE HANDLER BACKGROUND AND ICON
-			this.gamePauseHandler.visible = false;
-			this.gamePauseHandlerSprite.visible = false;
+			this.pauseHandler.visible = false;
+			this.pauseHandlerSprite.visible = false;
 
 			// PAUSING THE GAME
 			this.paused = true;
 			},this);
 
 		// ADDING THE GAME PAUSE HANDLER SPRITE
-		this.gamePauseHandlerSprite = game.add.sprite(20, -43.5, "imageGamePause");
+		this.pauseHandlerSprite = game.add.sprite(20, -43.5, "imageGamePause");
 
 		// ADDING THE GAME PAUSE HANDLER BACKGROUND
-		this.gameResumeHandler = game.add.graphics();
-		this.gameResumeHandler.beginFill(0x022C5C, 1);
-		this.gameResumeHandler.lineStyle(2, 0x0046A9, 1);
-		this.gameResumeHandler.drawRoundedRect(10, -52, 45, 40, 10);
-		this.gameResumeHandler.inputEnabled = true;
-		this.gameResumeHandler.input.useHandCursor = true;
-		this.gameResumeHandler.events.onInputUp.add(function()
+		this.resumeHandler = game.add.graphics();
+		this.resumeHandler.beginFill(0x022C5C, 1);
+		this.resumeHandler.lineStyle(2, 0x0046A9, 1);
+		this.resumeHandler.drawRoundedRect(10, -52, 45, 40, 10);
+		this.resumeHandler.inputEnabled = true;
+		this.resumeHandler.input.useHandCursor = true;
+		this.resumeHandler.events.onInputUp.add(function()
 			{
 			// SHOWING THE GAME PAUSE HANDLER BACKGROUND AND ICON
-			this.gamePauseHandler.visible = true;
-			this.gamePauseHandlerSprite.visible = true;
+			this.pauseHandler.visible = true;
+			this.pauseHandlerSprite.visible = true;
 
 			// HIDING THE GAME RESUME HANDLER BACKGROUND AND ICON
-			this.gameResumeHandler.visible = false;
-			this.gameResumeHandlerSprite.visible = false;
+			this.resumeHandler.visible = false;
+			this.resumeHandlerSprite.visible = false;
 
 			// RESUMING THE GAME
 			this.paused = false;
 			},this);
-		this.gameResumeHandler.visible = false;
+		this.resumeHandler.visible = false;
 
 		// ADDING THE GAME PAUSE HANDLER SPRITE
-		this.gameResumeHandlerSprite = game.add.sprite(20, -43.5, "imageGamePlay");
-		this.gameResumeHandlerSprite.visible = false;
+		this.resumeHandlerSprite = game.add.sprite(20, -43.5, "imageGamePlay");
+		this.resumeHandlerSprite.visible = false;
 
 		// ADDING THE SOUND HANDLER ON BACKGROUND
 		this.soundHandlerOnBackground = game.add.graphics();
