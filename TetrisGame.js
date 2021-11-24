@@ -13,20 +13,7 @@ function isWebGLAvailable(){if(window.WebGLRenderingContext){for(var e=document.
 // isMobileDevice.js
 function isMobileDevice(){return!!(navigator.userAgent.match(/Android/i)||navigator.userAgent.match(/webOS/i)||navigator.userAgent.match(/iPhone/i)||navigator.userAgent.match(/iPad/i)||navigator.userAgent.match(/iPod/i)||navigator.userAgent.match(/BlackBerry/i)||navigator.userAgent.match(/Windows Phone/i))}
 
-// GETTING THE USER LANGUAGE
-var userLanguage = window.navigator.userLanguage || window.navigator.language;
-
-var STRING_GAMEOVER = "";
-
-// CHECKING THE USER LANGUAGE
-if (userLanguage.substring(0,2)=="es")
-	{
-	STRING_GAMEOVER = "Juego perdido.";
-	}
-	else
-	{
-	STRING_GAMEOVER = "Game Over.";
-	}
+var STRING_GAMEOVER = "Game Over.";
 
 var GAME_SOUND_ENABLED = false;
 
@@ -383,6 +370,7 @@ Tetris.Game = function (game)
 	this.keyW = null;
 	this.keyP = null;
 	this.keySpace = null;
+	this.keyPauseLastKeyDown = null;
 	this.boardBorder = null;
 	this.musicPlayer = null;
 	this.audioPlayer = null;
@@ -463,6 +451,7 @@ Tetris.Game.prototype = {
 		this.keyW = null;
 		this.keyP = null;
 		this.keySpace = null;
+		this.keyPauseLastKeyDown = 0;
 		this.boardBorder = null;
 		this.musicPlayer = null;
 		this.audioPlayer = null;
@@ -752,10 +741,10 @@ Tetris.Game.prototype = {
 		if (this.keyP.isDown || this.keySpace.isDown)
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
-			if (this.getCurrentTime()-this.currentMovementTimerLeft > this.movementLag)
+			if (this.getCurrentTime()-this.keyPauseLastKeyDown > this.movementLag)
 				{
 				// RESETTING THE TIME COUNTER FOR THE LEFT KEY
-				this.currentMovementTimerLeft = this.getCurrentTime();
+				this.keyPauseLastKeyDown = this.getCurrentTime();
 
 				// CHECKING IF THE GAME IS PAUSED
 				if (this.paused==true)
