@@ -853,7 +853,7 @@ Tetris.Game.prototype = {
 		while(this.queue.length < nbNext+1)
 			{
 			// ADDING A TETROMINO AT BEGINNING OF ARRAY
-			this.queue.unshift(new Tetromino());
+			this.queue.unshift(new Tetromino(this));
 			}
 
 		// PUTTING THE LAST TETROMINO ON THE BOARD
@@ -1355,17 +1355,21 @@ Tetris.Game.prototype = {
 		}
 	};
 
-function Tetromino()
+class Tetromino
 	{
-	this.shape = Math.floor(Math.random() * 7);
-	this.color = Math.floor(Math.random() * 7);
-	this.sprites = []; // LIST OF THE SPRITES OF EACH BLOCK
-	this.cells = []; // LIST OF THE CELLS OCCUPIED BY THE TETROMINO
-	this.center = [0,0];
+	constructor(myContext)
+		{
+		this.myContext = myContext;
+		this.shape = Math.floor(Math.random() * 7);
+		this.color = Math.floor(Math.random() * 7);
+		this.sprites = []; // LIST OF THE SPRITES OF EACH BLOCK
+		this.cells = []; // LIST OF THE CELLS OCCUPIED BY THE TETROMINO
+		this.center = [0,0];
+		}
 
 	// THE MATERIALIZE FUNCTION MAKES THE TETROMINO APPEAR
 	// EITHER IN THE SCENE (INGAME = TRUE) OR ON THE TOP (INGAME = FALSE) IF IT'S THE NEXT TETROMINO
-	this.materialize = function(c_x,c_y,inGame)
+	materialize(c_x,c_y,inGame)
 		{
 		this.center = [c_x,c_y];
 		this.cells = [];
@@ -1382,19 +1386,19 @@ function Tetromino()
 		for(var i = 0; i < 4; i++)
 			{
 			// COMPUTE THE COORDINATES OF EACH BLOCK OF THE TETROMINO, USING IT'S OFFSET FROM THE CENTER
-			var x = c_x + game.state.states["Tetris.Game"].offsets[this.shape][i][0];
-			var y = c_y + game.state.states["Tetris.Game"].offsets[this.shape][i][1];
-			var sprite = game.state.states["Tetris.Game"].back_layer.create(x * 32, y * 32, "blocks", this.color);
+			var x = c_x + this.myContext.offsets[this.shape][i][0];
+			var y = c_y + this.myContext.offsets[this.shape][i][1];
+			var sprite = this.myContext.back_layer.create(x * 32, y * 32, "blocks", this.color);
 			this.sprites.push(sprite);
 			this.cells.push([x, y]);
 
 			if (inGame==true)
 				{
-				if(!game.state.states["Tetris.Game"].validateCoordinates(x,y))
+				if(!this.myContext.validateCoordinates(x,y))
 					{
 					conflict = true;
 					}
-				game.state.states["Tetris.Game"].scene[x][y] = 1; // 1 FOR BLOCKS OF CURRENT TETROMINO, 2 FOR FALLEN BLOCKS
+				this.myContext.scene[x][y] = 1; // 1 FOR BLOCKS OF CURRENT TETROMINO, 2 FOR FALLEN BLOCKS
 				}
 				else
 				{
