@@ -1332,7 +1332,7 @@ Tetris.Game.prototype = {
 			this.toastText.position.y = game.height - this.toastText.height - 238;
 
 			// DRAWING THE TOAST SHADOW
-			this.toastShadow.drawRoundedRect(game.width / 2 - this.toastText.width / 2 - 10, game.height - 272, this.toastText.width + 20, 42, 10);
+			this.toastShadow.drawRoundedRect(game.width / 2 - this.toastText.width / 2 - 10, game.height - 273.5, this.toastText.width + 20, 42, 10);
 			}
 			else
 			{
@@ -1340,7 +1340,7 @@ Tetris.Game.prototype = {
 			this.toastText.position.y = game.height - this.toastText.height - 88;
 
 			// DRAWING THE TOAST SHADOW
-			this.toastShadow.drawRoundedRect(game.width / 2 - this.toastText.width / 2 - 10, game.height - 122, this.toastText.width + 20, 42, 10);
+			this.toastShadow.drawRoundedRect(game.width / 2 - this.toastText.width / 2 - 10, game.height - 123.5, this.toastText.width + 20, 42, 10);
 			}
 
 		// WAITING 2000 MS
