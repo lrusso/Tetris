@@ -608,14 +608,14 @@ Tetris.Game.prototype = {
 		this.scoreLabel = game.add.bitmapText(185, -50, "ArialBlackWhite", "SCORE:", 16);
 
 		// ADDING THE SCORE VALUE
-		this.score = game.add.bitmapText(260, -50, "ArialBlackWhite", "0", 16);
+		this.score = game.add.bitmapText(258, -50, "ArialBlackWhite", "0", 16);
 
 		// ADDING THE HIGH SCORE LABEL
 		this.highScoreLabel = game.add.bitmapText(210, -25, "ArialBlackWhite", "TOP:", 16);
 		this.highScoreLabel.tint = 0XE6E600;
 
 		// ADDING THE HIGH SCORE VALUE
-		this.highScore = game.add.bitmapText(260, -25, "ArialBlackWhite", this.getHighscore(), 16);
+		this.highScore = game.add.bitmapText(258, -25, "ArialBlackWhite", this.getHighscore(), 16);
 		this.highScore.tint = 0XE6E600;
 
 		// ADDING THE BACK LAYER GROUP
@@ -1153,10 +1153,10 @@ Tetris.Game.prototype = {
 	updateScore: function(newScore)
 		{
 		// CHECKING IF THE USER HITS THE MAXIMUM SCORE POSSIBLE
-		if (newScore>9999)
+		if (newScore>99999)
 			{
 			// UPDATING THE USER SCORE
-			newScore = 9999;
+			newScore = 99999;
 			}
 
 		// UPDATING THE SCORE WITH THE NEW VALUE
