@@ -741,7 +741,7 @@ Tetris.Game.prototype = {
 		if (this.keyP.isDown || this.keySpace.isDown)
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
-			if (this.getCurrentTime()-this.keyPauseLastKeyDown > this.movementLag)
+			if (this.getCurrentTime()-this.keyPauseLastKeyDown > this.movementLag * 2)
 				{
 				// RESETTING THE TIME COUNTER FOR THE LEFT KEY
 				this.keyPauseLastKeyDown = this.getCurrentTime();
