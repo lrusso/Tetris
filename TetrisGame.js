@@ -1019,7 +1019,7 @@ Tetris.Game.prototype = {
 			// A LINE IS COMPLETED IF ALL THE CELLS OF THAT LINE ARE MARKED AS OCCUPIED
 			if(sum == (this.numBlocksX*this.occupiedValue))
 				{
-				this.updateScore(this.scoreValue + 20);
+				this.updateScore(this.scoreValue + 10);
 				collapsedLine.push(lines[j]);
 				this.cleanLine(lines[j]);
 				j = 99;
