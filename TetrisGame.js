@@ -159,7 +159,7 @@ Tetris.Splash.prototype = {
 		// WAITING 4750 MS
 		game.time.events.add(4750, function()
 			{
-			// STARTING THE GAME
+			// LOADING THE GAME MENU
 			game.state.start("Tetris.Menu", Phaser.Plugin.StateTransition.Out.SlideLeft);
 			});
 		}
