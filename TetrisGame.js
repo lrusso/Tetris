@@ -180,7 +180,7 @@ Tetris.Menu.prototype = {
 		this.menuVersionShadow = null;
 		this.menuVersion = null;
 		this.menuPlayButton = null;
-		this.menuPlayIcon = null;
+		this.menuPlayButtonIcon = null;
 		this.menuSoundButton = null;
 		this.menuSoundButtonIcon = null;
 		},
@@ -212,7 +212,7 @@ Tetris.Menu.prototype = {
 		this.menuVersion.position.x = game.width / 2 - this.menuVersion.width / 2;
 
 		// ADDING THE PLAY BUTTON
-		this.menuPlayButton = game.add.button(0, 480, "imageMenuButton", null, this, 2, 1, 0);
+		this.menuPlayButton = game.add.button(0, 475, "imageMenuButton", null, this, 2, 1, 0);
 		this.menuPlayButton.position.x = game.width / 2 - this.menuPlayButton.width - 20;
 		this.menuPlayButton.onInputUp.add(this.playGame, this);
 
@@ -222,7 +222,7 @@ Tetris.Menu.prototype = {
 		this.menuPlayButtonIcon.onInputUp.add(this.playGame, this);
 
 		// ADDING THE SOUND BUTTON
-		this.menuSoundButton = game.add.button(0, 480, "imageMenuButton", null, this, 2, 1, 0);
+		this.menuSoundButton = game.add.button(0, 475, "imageMenuButton", null, this, 2, 1, 0);
 		this.menuSoundButton.position.x = game.width / 2 + 20;
 		this.menuSoundButton.onInputUp.add(this.toggleSound, this);
 
