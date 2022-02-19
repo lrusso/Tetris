@@ -76,7 +76,7 @@ Tetris.Preloader.prototype = {
 		this.load.image("imageGameSoundOn", imageGameSoundOn);
 		this.load.image("imageGameSoundOff", imageGameSoundOff);
 		this.load.image("imageGameBoard", imageGameBoard);
-		this.load.spritesheet("blocks",imageGameBlocks,32,32,8);
+		this.load.spritesheet("imageGameBlocks",imageGameBlocks,32,32,8);
 		this.load.image("imageLogoPart1", imageLogoPart1);
 		this.load.image("imageLogoPart2", imageLogoPart2);
 
@@ -1401,7 +1401,7 @@ class Tetromino
 			// COMPUTE THE COORDINATES OF EACH BLOCK OF THE TETROMINO, USING IT'S OFFSET FROM THE CENTER
 			var x = c_x + this.myContext.offsets[this.shape][i][0];
 			var y = c_y + this.myContext.offsets[this.shape][i][1];
-			var sprite = this.myContext.back_layer.create(x * 32, y * 32, "blocks", this.color);
+			var sprite = this.myContext.back_layer.create(x * 32, y * 32, "imageGameBlocks", this.color);
 			this.sprites.push(sprite);
 			this.cells.push([x, y]);
 
