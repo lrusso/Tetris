@@ -17,6 +17,8 @@ var STRING_GAMEOVER = "GAME OVER";
 
 var GAME_SOUND_ENABLED = false;
 
+var MUSIC_PLAYER = null;
+
 var Tetris = {};
 
 Tetris.Preloader = function(){};
@@ -186,6 +188,7 @@ Tetris.Menu.prototype = {
 		this.menuPlayButtonIcon = null;
 		this.menuSoundButton = null;
 		this.menuSoundButtonIcon = null;
+		this.clickTimestamp = null;
 		},
 
 	create: function()
@@ -217,21 +220,25 @@ Tetris.Menu.prototype = {
 		// ADDING THE PLAY BUTTON
 		this.menuPlayButton = game.add.button(0, 475, "imageMenuButton", null, this, 2, 1, 0);
 		this.menuPlayButton.position.x = game.width / 2 - this.menuPlayButton.width - 20;
+		this.menuPlayButton.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp = this.getCurrentTime();}},this);
 		this.menuPlayButton.onInputUp.add(this.playGame, this);
 
 		// ADDING THE PLAY BUTTON ICON
 		this.menuPlayButtonIcon = game.add.button(0, this.menuPlayButton.position.y + 19, "imageMenuPlay", null, this, 2, 1, 0);
 		this.menuPlayButtonIcon.position.x = this.menuPlayButton.position.x + this.menuPlayButton.width / 2 - this.menuPlayButtonIcon.width / 2 + 2;
+		this.menuPlayButtonIcon.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp = this.getCurrentTime();}},this);
 		this.menuPlayButtonIcon.onInputUp.add(this.playGame, this);
 
 		// ADDING THE SOUND BUTTON
 		this.menuSoundButton = game.add.button(0, 475, "imageMenuButton", null, this, 2, 1, 0);
 		this.menuSoundButton.position.x = game.width / 2 + 20;
+		this.menuSoundButton.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp = this.getCurrentTime();}},this);
 		this.menuSoundButton.onInputUp.add(this.toggleSound, this);
 
 		// ADDING THE SOUND BUTTON ICON
 		this.menuSoundButtonIcon = game.add.button(0, this.menuSoundButton.position.y + 19, "imageMenuSoundOn", null, this, 2, 1, 0);
 		this.menuSoundButtonIcon.position.x = this.menuSoundButton.position.x + this.menuSoundButton.width / 2 - this.menuSoundButtonIcon.width / 2 + 2;
+		this.menuSoundButtonIcon.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp = this.getCurrentTime();}},this);
 		this.menuSoundButtonIcon.onInputUp.add(this.toggleSound, this);
 
 		// CHECKING IF THE SOUND IS DISABLED
@@ -307,37 +314,72 @@ Tetris.Menu.prototype = {
 
 	toggleSound: function()
 		{
-		// CHECKING IF THE SOUND IS ENABLED
-		if (GAME_SOUND_ENABLED==true)
+		// CHECKING IF THE EVENT WAS A CLICK AND NOT A LONG PRESS CLICK - BUGFIX FOR SAFARI ON IOS FOR ENABLING THE AUDIO CONTEXT
+		if(this.getCurrentTime()-this.clickTimestamp<500)
 			{
-			// DISABLING THE SOUND
-			GAME_SOUND_ENABLED = false;
+			// CHECKING IF THE SOUND IS ENABLED
+			if (GAME_SOUND_ENABLED==true)
+				{
+				// DISABLING THE SOUND
+				GAME_SOUND_ENABLED = false;
 
-			// SAVING THE SOUND PREFERENCE
-			this.setBooleanSetting("GAME_SOUND_ENABLED", false);
+				// SAVING THE SOUND PREFERENCE
+				this.setBooleanSetting("GAME_SOUND_ENABLED", false);
 
-			// SHOWING THE SOUND DISABLED IMAGES
-			this.menuSoundButton.loadTexture("imageMenuButtonDisabled")
-			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOff");
+				// SHOWING THE SOUND DISABLED IMAGES
+				this.menuSoundButton.loadTexture("imageMenuButtonDisabled")
+				this.menuSoundButtonIcon.loadTexture("imageMenuSoundOff");
+				}
+				else
+				{
+				// ENABLING THE SOUND
+				GAME_SOUND_ENABLED = true;
+
+				// SAVING THE SOUND PREFERENCE
+				this.setBooleanSetting("GAME_SOUND_ENABLED", true);
+
+				// SHOWING THE SOUND ENABLED IMAGES
+				this.menuSoundButton.loadTexture("imageMenuButton")
+				this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
+				}
 			}
-			else
-			{
-			// ENABLING THE SOUND
-			GAME_SOUND_ENABLED = true;
 
-			// SAVING THE SOUND PREFERENCE
-			this.setBooleanSetting("GAME_SOUND_ENABLED", true);
-
-			// SHOWING THE SOUND ENABLED IMAGES
-			this.menuSoundButton.loadTexture("imageMenuButton")
-			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
-			}
+		// CLEARING THE CLICK TIMESTAMP VALUE
+		this.clickTimestamp = null;
 		},
 
 	playGame: function()
 		{
-		// LAUNCHING THE GAME
-		game.state.start("Tetris.Game", Phaser.Plugin.StateTransition.Out.SlideLeft);
+		// CHECKING IF THE EVENT WAS A CLICK AND NOT A LONG PRESS CLICK - BUGFIX FOR SAFARI ON IOS FOR ENABLING THE AUDIO CONTEXT
+		if(this.getCurrentTime()-this.clickTimestamp<500)
+			{
+			// CHECKING IF THE SOUND IS ENABLED
+			if (GAME_SOUND_ENABLED==true)
+				{
+				// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS BACKGROUND MUSIC
+				MUSIC_PLAYER = this.add.audio("musicBackground");
+
+				// SETTING THE BACKGROUND MUSIC VOLUME
+				MUSIC_PLAYER.volume = 1;
+
+				// SETTING THAT THE BACKGROUND MUSIC WILL BE LOOPING
+				MUSIC_PLAYER.loop = true;
+
+				// PLAYING THE BACKGROUND MUSIC
+				MUSIC_PLAYER.play();
+				}
+
+			// LAUNCHING THE GAME
+			game.state.start("Tetris.Game", Phaser.Plugin.StateTransition.Out.SlideLeft);
+			}
+
+		// CLEARING THE CLICK TIMESTAMP VALUE
+		this.clickTimestamp = null;
+		},
+
+	getCurrentTime: function()
+		{
+		return window.performance && window.performance.now && window.performance.timing && window.performance.timing.navigationStart ? window.performance.now() + window.performance.timing.navigationStart : Date.now();
 		}
 	};
 
@@ -389,7 +431,6 @@ Tetris.Game = function (game)
 	this.keySpace = null;
 	this.keyPauseLastKeyDown = null;
 	this.boardBorder = null;
-	this.musicPlayer = null;
 	this.audioPlayer = null;
 
 	// SCALING THE CANVAS SIZE FOR THE GAME
@@ -469,7 +510,6 @@ Tetris.Game.prototype = {
 		this.keySpace = null;
 		this.keyPauseLastKeyDown = 0;
 		this.boardBorder = null;
-		this.musicPlayer = null;
 		this.audioPlayer = null;
 		},
 
@@ -534,13 +574,13 @@ Tetris.Game.prototype = {
 			this.setBooleanSetting("GAME_SOUND_ENABLED", false);
 
 			// CHECKING IF THE BACKGROUND MUSIC PLAYER IS CREATED
-			if(this.musicPlayer!=null)
+			if(MUSIC_PLAYER!=null)
 				{
 				// PAUSING THE BACKGROUND MUSIC PLAYER
-				this.musicPlayer.pause();
+				MUSIC_PLAYER.pause();
 
 				// DESTROYING THE BACKGROUND MUSIC PLAYER
-				this.musicPlayer.destroy();
+				MUSIC_PLAYER.destroy();
 				}
 			},this);
 
@@ -571,16 +611,16 @@ Tetris.Game.prototype = {
 			this.setBooleanSetting("GAME_SOUND_ENABLED", true);
 
 			// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS BACKGROUND MUSIC
-			this.musicPlayer = this.add.audio("musicBackground");
+			MUSIC_PLAYER = this.add.audio("musicBackground");
 
 			// SETTING THE BACKGROUND MUSIC VOLUME
-			this.musicPlayer.volume = 1;
+			MUSIC_PLAYER.volume = 1;
 
 			// SETTING THAT THE BACKGROUND MUSIC WILL BE LOOPING
-			this.musicPlayer.loop = true;
+			MUSIC_PLAYER.loop = true;
 
 			// PLAYING THE BACKGROUND MUSIC
-			this.musicPlayer.play();
+			MUSIC_PLAYER.play();
 
 			},this);
 
@@ -714,36 +754,6 @@ Tetris.Game.prototype = {
 			// ENABLING THE STICK FOR MOBILE DEVICES
 			this.stick.enabled = true;
 			}
-
-		// CHECKING IF THE BACKGROUND MUSIC PLAYER IS CREATED
-		if(this.musicPlayer!=null)
-			{
-			// PAUSING THE BACKGROUND MUSIC PLAYER
-			this.musicPlayer.pause();
-
-			// DESTROYING THE BACKGROUND MUSIC PLAYER
-			this.musicPlayer.destroy();
-			}
-
-		// WAITING 500 MS
-		game.time.events.add(500, function()
-			{
-			// CHECKING IF THE SOUND IS ENABLED
-			if (GAME_SOUND_ENABLED==true)
-				{
-				// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS BACKGROUND MUSIC
-				game.state.states["Tetris.Game"].musicPlayer = game.state.states["Tetris.Game"].add.audio("musicBackground");
-
-				// SETTING THE BACKGROUND MUSIC VOLUME
-				game.state.states["Tetris.Game"].musicPlayer.volume = 1;
-
-				// SETTING THAT THE BACKGROUND MUSIC WILL BE LOOPING
-				game.state.states["Tetris.Game"].musicPlayer.loop = true;
-
-				// PLAYING THE BACKGROUND MUSIC
-				game.state.states["Tetris.Game"].musicPlayer.play();
-				}
-			});
 		},
 
 	update: function()
@@ -1139,17 +1149,6 @@ Tetris.Game.prototype = {
 		{
 		// SETTING THE GAME OVER STATUS
 		this.isGameOver = true;
-
-		// CHECKING IF THE SOUND IS ENABLED
-		if (GAME_SOUND_ENABLED==true)
-			{
-			// CHECKING IF THE MUSIC PLAYER IS CREATED
-			if(this.musicPlayer!=null)
-				{
-				// DESTROYING THE MUSIC PLAYER
-				this.musicPlayer.destroy();
-				}
-			}
 
 		// RESTARTING THE STATE
 		this.state.restart();
