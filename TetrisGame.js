@@ -189,6 +189,8 @@ Tetris.Menu.prototype = {
 		this.menuSoundButton = null;
 		this.menuSoundButtonIcon = null;
 		this.clickTimestamp = null;
+		this.clickPositionX = null;
+		this.clickPositionY = null;
 		},
 
 	create: function()
@@ -220,25 +222,25 @@ Tetris.Menu.prototype = {
 		// ADDING THE PLAY BUTTON
 		this.menuPlayButton = game.add.button(0, 475, "imageMenuButton", null, this, 2, 1, 0);
 		this.menuPlayButton.position.x = game.width / 2 - this.menuPlayButton.width - 20;
-		this.menuPlayButton.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp = this.getCurrentTime();}},this);
+		this.menuPlayButton.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp=this.getCurrentTime();this.clickPositionX=this.game.input.activePointer.position.x;this.clickPositionY=this.game.input.activePointer.position.y;}},this);
 		this.menuPlayButton.onInputUp.add(this.playGame, this);
 
 		// ADDING THE PLAY BUTTON ICON
 		this.menuPlayButtonIcon = game.add.button(0, this.menuPlayButton.position.y + 19, "imageMenuPlay", null, this, 2, 1, 0);
 		this.menuPlayButtonIcon.position.x = this.menuPlayButton.position.x + this.menuPlayButton.width / 2 - this.menuPlayButtonIcon.width / 2 + 2;
-		this.menuPlayButtonIcon.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp = this.getCurrentTime();}},this);
+		this.menuPlayButtonIcon.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp=this.getCurrentTime();this.clickPositionX=this.game.input.activePointer.position.x;this.clickPositionY=this.game.input.activePointer.position.y;}},this);
 		this.menuPlayButtonIcon.onInputUp.add(this.playGame, this);
 
 		// ADDING THE SOUND BUTTON
 		this.menuSoundButton = game.add.button(0, 475, "imageMenuButton", null, this, 2, 1, 0);
 		this.menuSoundButton.position.x = game.width / 2 + 20;
-		this.menuSoundButton.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp = this.getCurrentTime();}},this);
+		this.menuSoundButton.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp=this.getCurrentTime();this.clickPositionX=this.game.input.activePointer.position.x;this.clickPositionY=this.game.input.activePointer.position.y;}},this);
 		this.menuSoundButton.onInputUp.add(this.toggleSound, this);
 
 		// ADDING THE SOUND BUTTON ICON
 		this.menuSoundButtonIcon = game.add.button(0, this.menuSoundButton.position.y + 19, "imageMenuSoundOn", null, this, 2, 1, 0);
 		this.menuSoundButtonIcon.position.x = this.menuSoundButton.position.x + this.menuSoundButton.width / 2 - this.menuSoundButtonIcon.width / 2 + 2;
-		this.menuSoundButtonIcon.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp = this.getCurrentTime();}},this);
+		this.menuSoundButtonIcon.onInputDown.add(function(){if(this.clickTimestamp==null){this.clickTimestamp=this.getCurrentTime();this.clickPositionX=this.game.input.activePointer.position.x;this.clickPositionY=this.game.input.activePointer.position.y;}},this);
 		this.menuSoundButtonIcon.onInputUp.add(this.toggleSound, this);
 
 		// CHECKING IF THE SOUND IS DISABLED
@@ -314,67 +316,66 @@ Tetris.Menu.prototype = {
 
 	toggleSound: function()
 		{
-		// CHECKING IF THE EVENT WAS A CLICK AND NOT A LONG PRESS CLICK - BUGFIX FOR SAFARI ON IOS FOR ENABLING THE AUDIO CONTEXT
-		if(this.getCurrentTime()-this.clickTimestamp<500)
+		// REJECTING ANY SLIDE AND LONG PRESS EVENT - BUGFIX FOR SAFARI ON IOS FOR ENABLING THE AUDIO CONTEXT
+		if (Math.abs(this.game.input.activePointer.position.x-this.clickPositionX)>=25){this.clickTimestamp=null;return;}
+		if (Math.abs(this.game.input.activePointer.position.y-this.clickPositionY)>=25){this.clickTimestamp=null;return;}
+		if (this.getCurrentTime()-this.clickTimestamp>=500){this.clickTimestamp=null;return;}
+
+		// CHECKING IF THE SOUND IS ENABLED
+		if (GAME_SOUND_ENABLED==true)
 			{
-			// CHECKING IF THE SOUND IS ENABLED
-			if (GAME_SOUND_ENABLED==true)
-				{
-				// DISABLING THE SOUND
-				GAME_SOUND_ENABLED = false;
+			// DISABLING THE SOUND
+			GAME_SOUND_ENABLED = false;
 
-				// SAVING THE SOUND PREFERENCE
-				this.setBooleanSetting("GAME_SOUND_ENABLED", false);
+			// SAVING THE SOUND PREFERENCE
+			this.setBooleanSetting("GAME_SOUND_ENABLED", false);
 
-				// SHOWING THE SOUND DISABLED IMAGES
-				this.menuSoundButton.loadTexture("imageMenuButtonDisabled")
-				this.menuSoundButtonIcon.loadTexture("imageMenuSoundOff");
-				}
-				else
-				{
-				// ENABLING THE SOUND
-				GAME_SOUND_ENABLED = true;
+			// SHOWING THE SOUND DISABLED IMAGES
+			this.menuSoundButton.loadTexture("imageMenuButtonDisabled")
+			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOff");
+			}
+			else
+			{
+			// ENABLING THE SOUND
+			GAME_SOUND_ENABLED = true;
 
-				// SAVING THE SOUND PREFERENCE
-				this.setBooleanSetting("GAME_SOUND_ENABLED", true);
+			// SAVING THE SOUND PREFERENCE
+			this.setBooleanSetting("GAME_SOUND_ENABLED", true);
 
-				// SHOWING THE SOUND ENABLED IMAGES
-				this.menuSoundButton.loadTexture("imageMenuButton")
-				this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
-				}
+			// SHOWING THE SOUND ENABLED IMAGES
+			this.menuSoundButton.loadTexture("imageMenuButton")
+			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
 			}
 
-		// CLEARING THE CLICK TIMESTAMP VALUE
+		// CLEARING THE TIMESTAMP VALUE
 		this.clickTimestamp = null;
 		},
 
 	playGame: function()
 		{
-		// CHECKING IF THE EVENT WAS A CLICK AND NOT A LONG PRESS CLICK - BUGFIX FOR SAFARI ON IOS FOR ENABLING THE AUDIO CONTEXT
-		if(this.getCurrentTime()-this.clickTimestamp<500)
+		// REJECTING ANY SLIDE AND LONG PRESS EVENT - BUGFIX FOR SAFARI ON IOS FOR ENABLING THE AUDIO CONTEXT
+		if (Math.abs(this.game.input.activePointer.position.x-this.clickPositionX)>=25){this.clickTimestamp=null;return;}
+		if (Math.abs(this.game.input.activePointer.position.y-this.clickPositionY)>=25){this.clickTimestamp=null;return;}
+		if (this.getCurrentTime()-this.clickTimestamp>=500){this.clickTimestamp=null;return;}
+
+		// CHECKING IF THE SOUND IS ENABLED
+		if (GAME_SOUND_ENABLED==true)
 			{
-			// CHECKING IF THE SOUND IS ENABLED
-			if (GAME_SOUND_ENABLED==true)
-				{
-				// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS BACKGROUND MUSIC
-				MUSIC_PLAYER = this.add.audio("musicBackground");
+			// SETTING THE AUDIO FILE THAT WILL BE PLAYED AS BACKGROUND MUSIC
+			MUSIC_PLAYER = this.add.audio("musicBackground");
 
-				// SETTING THE BACKGROUND MUSIC VOLUME
-				MUSIC_PLAYER.volume = 1;
+			// SETTING THE BACKGROUND MUSIC VOLUME
+			MUSIC_PLAYER.volume = 1;
 
-				// SETTING THAT THE BACKGROUND MUSIC WILL BE LOOPING
-				MUSIC_PLAYER.loop = true;
+			// SETTING THAT THE BACKGROUND MUSIC WILL BE LOOPING
+			MUSIC_PLAYER.loop = true;
 
-				// PLAYING THE BACKGROUND MUSIC
-				MUSIC_PLAYER.play();
-				}
-
-			// LAUNCHING THE GAME
-			game.state.start("Tetris.Game", Phaser.Plugin.StateTransition.Out.SlideLeft);
+			// PLAYING THE BACKGROUND MUSIC
+			MUSIC_PLAYER.play();
 			}
 
-		// CLEARING THE CLICK TIMESTAMP VALUE
-		this.clickTimestamp = null;
+		// LAUNCHING THE GAME
+		game.state.start("Tetris.Game", Phaser.Plugin.StateTransition.Out.SlideLeft);
 		},
 
 	getCurrentTime: function()
