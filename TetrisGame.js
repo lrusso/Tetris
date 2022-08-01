@@ -347,7 +347,7 @@ Tetris.Menu.prototype = {
 			this.menuSoundButtonIcon.loadTexture("imageMenuSoundOn");
 			}
 
-		// CLEARING THE TIMESTAMP VALUE
+		// CLEARING THE CLICK TIMESTAMP VALUE
 		this.clickTimestamp = null;
 		},
 
