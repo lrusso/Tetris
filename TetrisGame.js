@@ -716,8 +716,27 @@ Tetris.Game.prototype = {
 		// ADDING THE PAD PLUGIN
 		this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
 
-		// ADDING THE STICK FOR MOBILE DEVICES
-		this.stick = this.pad.addDPad(85, 521, 0, "dpad");
+		// CHECKING IF THE GAME IS RUNNING ON A TABLET
+		if (window.innerHeight>=1280)
+			{
+			// ADDING THE STICK FOR BIG SIZE TABLET
+			this.stick = this.pad.addDPad(65, 551, 0, "dpad");
+			this.stick.sprite.scale.set(0.5);
+			}
+		else if (window.innerHeight>=830)
+			{
+			// ADDING THE STICK FOR REGULAR SIZE TABLET
+			this.stick = this.pad.addDPad(75, 531, 0, "dpad");
+			this.stick.sprite.scale.set(0.6);
+			}
+		else
+			{
+			// ADDING THE STICK FOR REGULAR SMARTPHONES
+			this.stick = this.pad.addDPad(85, 521, 0, "dpad");
+			this.stick.sprite.scale.set(0.8);
+			}
+
+		// SETTING THE STYLES AND EVENTS RELATED TO THE STICK FOR MOBILE DEVICES
 		this.stick.sprite.scale.set(0.8);
 		this.stick.sprite.alpha = 0.4;
 		this.stick.sprite.inputEnabled = true;
