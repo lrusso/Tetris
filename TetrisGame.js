@@ -737,7 +737,6 @@ Tetris.Game.prototype = {
 			}
 
 		// SETTING THE STYLES AND EVENTS RELATED TO THE STICK FOR MOBILE DEVICES
-		this.stick.sprite.scale.set(0.8);
 		this.stick.sprite.alpha = 0.4;
 		this.stick.sprite.inputEnabled = true;
 		this.stick.sprite.events.onInputDown.add(function(){this.update();},this);
