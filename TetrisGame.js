@@ -1357,7 +1357,7 @@ Tetris.Game.prototype = {
 		// CHECKING IF IT IS A MOBILE DEVICE
 		if (this.isMobileDevice==true)
 			{
-			// MOVING DOWN THE TOAST TEST
+			// MOVING DOWN THE TOAST TEXT
 			this.toastText.position.y = game.height - this.toastText.height - 238;
 
 			// DRAWING THE TOAST SHADOW
@@ -1365,7 +1365,7 @@ Tetris.Game.prototype = {
 			}
 			else
 			{
-			// MOVING DOWN THE TOAST TEST
+			// MOVING DOWN THE TOAST TEXT
 			this.toastText.position.y = game.height - this.toastText.height - 88;
 
 			// DRAWING THE TOAST SHADOW
