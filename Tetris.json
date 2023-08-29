@@ -5,7 +5,6 @@
 	"start_url": "https://lrusso.github.io/Tetris/Tetris.htm",
 	"display": "standalone",
 	"orientation": "portrait",
-	"theme-color": "#000000",
 	"theme_color": "#000000",
 	"background_color": "#000000",
 	"icons": [
