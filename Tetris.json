@@ -5,8 +5,8 @@
 	"start_url": "https://lrusso.github.io/Tetris/Tetris.htm",
 	"display": "standalone",
 	"orientation": "portrait",
-	"theme_color": "black",
-	"background_color": "black",
+	"theme_color": "#000000",
+	"background_color": "#000000",
 	"icons": [
 		{
 			"src": "https://lrusso.github.io/Tetris/TetrisFavIcon_192x192.png",
