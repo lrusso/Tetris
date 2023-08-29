@@ -1479,6 +1479,44 @@ class Tetromino
 		}
 	}
 
+// LISTENING TO EVERY DOUBLE CLICK ON THE BACKGROUND
+document.getElementsByClassName("background")[0].addEventListener("dblclick", function(e)
+	{
+	// CHECKING IF IT IS A MOBILE DEVICE
+	if (isMobileDevice()==true)
+		{
+		// CHECKING IF THE DOUBLE CLICK WAS IN THE FIRST HALF OF THE SCREEN
+		if (e.clientX <= window.innerWidth / 2)
+			{
+			// CHECKING IF THE GAME IS ALIGNED TO THE RIGHT
+			if (document.getElementById("content").className == "content-right")
+				{
+				// CENTERING THE GAME
+				document.getElementById("content").className = "content-centered";
+				}
+				else
+				{
+				// MOVING THE GAME TO LEFT
+				document.getElementById("content").className = "content-left";
+				}
+			}
+			else
+			{
+			// CHECKING IF THE GAME IS ALIGNED TO THE LEFT
+			if (document.getElementById("content").className == "content-left")
+				{
+				// CENTERING THE GAME
+				document.getElementById("content").className = "content-centered";
+				}
+				else
+				{
+				// MOVING THE GAME TO RIGHT
+				document.getElementById("content").className = "content-right";
+				}
+			}
+		}
+	});
+
 // SETTING THE DEFAULT RENDERER MODE
 var rendererMode = Phaser.WEBGL;
 
