@@ -1521,7 +1521,7 @@ document.getElementsByClassName("background")[0].addEventListener("dblclick", fu
 				// CENTERING THE GAME
 				document.getElementById("content").className = "content-centered";
 
-				// SAVING THE GAME ORIENTATION
+				// SAVING THE GAME POSITION
 				setGamePosition("tetrisPosition", "0");
 				}
 				else
@@ -1529,7 +1529,7 @@ document.getElementsByClassName("background")[0].addEventListener("dblclick", fu
 				// MOVING THE GAME TO LEFT
 				document.getElementById("content").className = "content-left";
 
-				// SAVING THE GAME ORIENTATION
+				// SAVING THE GAME POSITION
 				setGamePosition("tetrisPosition", "1");
 				}
 			}
@@ -1541,7 +1541,7 @@ document.getElementsByClassName("background")[0].addEventListener("dblclick", fu
 				// CENTERING THE GAME
 				document.getElementById("content").className = "content-centered";
 
-				// SAVING THE GAME ORIENTATION
+				// SAVING THE GAME POSITION
 				setGamePosition("tetrisPosition", "0");
 				}
 				else
@@ -1549,7 +1549,7 @@ document.getElementsByClassName("background")[0].addEventListener("dblclick", fu
 				// MOVING THE GAME TO RIGHT
 				document.getElementById("content").className = "content-right";
 
-				// SAVING THE GAME ORIENTATION
+				// SAVING THE GAME POSITION
 				setGamePosition("tetrisPosition", "2");
 				}
 			}
