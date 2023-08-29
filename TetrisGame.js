@@ -1482,81 +1482,111 @@ class Tetromino
 function getGamePosition(settingsName){try{var name = settingsName;var nameEQ = name + "=";var ca = document.cookie.split(";");for(var i=0;i < ca.length;i++){var c = ca[i];while (c.charAt(0)==" "){c = c.substring(1,c.length);}if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);}}catch(err){}return "0";}
 function setGamePosition(settingsName, gamePosition){try{var name = settingsName;var value = gamePosition;var days = 999;var expires = "";if (days){var date = new Date();date.setTime(date.getTime() + (days*24*60*60*1000));expires = "; expires=" + date.toUTCString() + "; SameSite=Lax";}document.cookie = name + "=" + (value || "")  + expires + "; Secure; path=/";}catch(err){}}
 
-window.addEventListener("load", function()
+// GETTING THE STORED GAME POSITION
+var origGamePosition = getGamePosition("tetrisPosition");
+
+// CHECKING IF THE GAME MUST BE CENTERED
+if (origGamePosition=="0")
 	{
-	// GETTING THE STORED GAME POSITION
-	var origGamePosition = getGamePosition("tetrisPosition");
+	// CENTERING THE GAME
+	document.getElementById("content").className = "content-centered";
+	}
 
-	// CHECKING IF THE GAME MUST BE CENTERED
-	if (origGamePosition=="0")
+// CHECKING IF THE GAME MUST BE MOVED TO THE LEFT
+else if (origGamePosition=="1")
+	{
+	// MOVING THE GAME TO LEFT
+	document.getElementById("content").className = "content-left";
+	}
+
+// CHECKING IF THE GAME MUST BE MOVED TO THE RIGHT
+else if (origGamePosition=="2")
+	{
+	// MOVING THE GAME TO RIGHT
+	document.getElementById("content").className = "content-right";
+	}
+
+var clickTimestamp = null;
+
+// LISTENING TO EVERY DOUBLE CLICK ON THE BACKGROUND
+document.getElementsByClassName("background")[0].addEventListener("click", function(e)
+	{
+	// CHECKING IF IT IS NOT A MOBILE DEVICE
+	if (!isMobileDevice()==false)
 		{
-		// CENTERING THE GAME
-		document.getElementById("content").className = "content-centered";
+		// NO POINT GOING ANY FURTHER
+		return;
 		}
 
-	// CHECKING IF THE GAME MUST BE MOVED TO THE LEFT
-	else if (origGamePosition=="1")
+	// ---------------------------------------------------------------------
+	// WORKAROUND BECAUSE SAFARI ON IOS DOESN'T SUPPORT THE DBLCLICK EVENT
+	// ---------------------------------------------------------------------
+
+	// CHECKING IF THERE WAS NO CLICK
+	if (clickTimestamp == null)
 		{
-		// MOVING THE GAME TO LEFT
-		document.getElementById("content").className = "content-left";
+		// SETTING THE CLICK TIMESTAMP
+		clickTimestamp = Date.now();
+
+		// NO POINT GOING ANY FURTHER
+		return;
 		}
 
-	// CHECKING IF THE GAME MUST BE MOVED TO THE RIGHT
-	else if (origGamePosition=="2")
+	if (Date.now() < clickTimestamp + 250)
 		{
-		// MOVING THE GAME TO RIGHT
-		document.getElementById("content").className = "content-right";
+		// CLEARING THE CLICK TIMESTAMP
+		clickTimestamp = null;
+		}
+		else
+		{
+		// SETTING THE CLICK TIMESTAMP
+		clickTimestamp = Date.now();
+
+		// NO POINT GOING ANY FURTHER
+		return;
 		}
 
-	// LISTENING TO EVERY DOUBLE CLICK ON THE BACKGROUND
-	document.getElementsByClassName("background")[0].addEventListener("dblclick", function(e)
+	// CHECKING IF THE DOUBLE CLICK WAS IN THE FIRST HALF OF THE SCREEN
+	if (e.clientX <= window.innerWidth / 2)
 		{
-		// CHECKING IF IT IS A MOBILE DEVICE
-		if (isMobileDevice()==true)
+		// CHECKING IF THE GAME IS ALIGNED TO THE RIGHT
+		if (document.getElementById("content").className == "content-right")
 			{
-			// CHECKING IF THE DOUBLE CLICK WAS IN THE FIRST HALF OF THE SCREEN
-			if (e.clientX <= window.innerWidth / 2)
-				{
-				// CHECKING IF THE GAME IS ALIGNED TO THE RIGHT
-				if (document.getElementById("content").className == "content-right")
-					{
-					// CENTERING THE GAME
-					document.getElementById("content").className = "content-centered";
+			// CENTERING THE GAME
+			document.getElementById("content").className = "content-centered";
 
-					// SAVING THE GAME POSITION
-					setGamePosition("tetrisPosition", "0");
-					}
-					else
-					{
-					// MOVING THE GAME TO LEFT
-					document.getElementById("content").className = "content-left";
-
-					// SAVING THE GAME POSITION
-					setGamePosition("tetrisPosition", "1");
-					}
-				}
-				else
-				{
-				// CHECKING IF THE GAME IS ALIGNED TO THE LEFT
-				if (document.getElementById("content").className == "content-left")
-					{
-					// CENTERING THE GAME
-					document.getElementById("content").className = "content-centered";
-
-					// SAVING THE GAME POSITION
-					setGamePosition("tetrisPosition", "0");
-					}
-					else
-					{
-					// MOVING THE GAME TO RIGHT
-					document.getElementById("content").className = "content-right";
-
-					// SAVING THE GAME POSITION
-					setGamePosition("tetrisPosition", "2");
-					}
-				}
+			// SAVING THE GAME POSITION
+			setGamePosition("tetrisPosition", "0");
 			}
-		});
+			else
+			{
+			// MOVING THE GAME TO LEFT
+			document.getElementById("content").className = "content-left";
+
+			// SAVING THE GAME POSITION
+			setGamePosition("tetrisPosition", "1");
+			}
+		}
+		else
+		{
+		// CHECKING IF THE GAME IS ALIGNED TO THE LEFT
+		if (document.getElementById("content").className == "content-left")
+			{
+			// CENTERING THE GAME
+			document.getElementById("content").className = "content-centered";
+
+			// SAVING THE GAME POSITION
+			setGamePosition("tetrisPosition", "0");
+			}
+			else
+			{
+			// MOVING THE GAME TO RIGHT
+			document.getElementById("content").className = "content-right";
+
+			// SAVING THE GAME POSITION
+			setGamePosition("tetrisPosition", "2");
+			}
+		}
 	});
 
 // SETTING THE DEFAULT RENDERER MODE
