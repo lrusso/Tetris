@@ -1507,9 +1507,10 @@ else if (origGamePosition=="2")
 	}
 
 var clickTimestamp = null;
+var clickLastX = null;
 
 // LISTENING TO EVERY DOUBLE CLICK ON THE BACKGROUND
-document.getElementsByClassName("background")[0].addEventListener("click", function(e)
+document.getElementsByClassName("background")[0].addEventListener("click", function(event)
 	{
 	// CHECKING IF IT IS NOT A MOBILE DEVICE
 	if (isMobileDevice()==false)
@@ -1528,14 +1529,27 @@ document.getElementsByClassName("background")[0].addEventListener("click", funct
 		// SETTING THE CLICK TIMESTAMP
 		clickTimestamp = Date.now();
 
+		clickLastX = event.clientX;
+
 		// NO POINT GOING ANY FURTHER
 		return;
 		}
 
+	// CHECKING IF THERE IS 500 MS OR LESS BETWEEN THE FIRST AND SECOND CLICK
 	if (Date.now() < clickTimestamp + 500)
 		{
+		// GETTING THE DISTANCE BETWEEN THE FIRST AND SECOND CLICK
+		var diffX = Math.abs(clickLastX - event.clientX);
+
 		// CLEARING THE CLICK TIMESTAMP
 		clickTimestamp = null;
+
+		// CHECKING IF THE DISTANCE BETWEEN THE FIRST AND SECOND CLICK IS NOT VALID
+		if (diffX >= 100)
+			{
+			// NO POINT GOING ANY FURTHER
+			return;
+			}
 		}
 		else
 		{
@@ -1547,7 +1561,7 @@ document.getElementsByClassName("background")[0].addEventListener("click", funct
 		}
 
 	// CHECKING IF THE DOUBLE CLICK WAS IN THE FIRST HALF OF THE SCREEN
-	if (e.clientX <= window.innerWidth / 2)
+	if (event.clientX <= window.innerWidth / 2)
 		{
 		// CHECKING IF THE GAME IS ALIGNED TO THE RIGHT
 		if (document.getElementById("content").className == "content-right")
