@@ -1479,6 +1479,33 @@ class Tetromino
 		}
 	}
 
+function getGamePosition(settingsName){try{var name = settingsName;var nameEQ = name + "=";var ca = document.cookie.split(";");for(var i=0;i < ca.length;i++){var c = ca[i];while (c.charAt(0)==" "){c = c.substring(1,c.length);}if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);}}catch(err){}return "0";}
+function setGameOrientation(settingsName, gamePosition){try{var name = settingsName;var value = gamePosition;var days = 999;var expires = "";if (days){var date = new Date();date.setTime(date.getTime() + (days*24*60*60*1000));expires = "; expires=" + date.toUTCString() + "; SameSite=Lax";}document.cookie = name + "=" + (value || "")  + expires + "; Secure; path=/";}catch(err){}}
+
+// GETTING THE STORED GAME POSITION
+var origGamePosition = getGamePosition("tetrisOrientation");
+
+// CHECKING IF THE GAME MUST BE CENTERED
+if (origGamePosition=="0")
+	{
+	// CENTERING THE GAME
+	document.getElementById("content").className = "content-centered";
+	}
+
+// CHECKING IF THE GAME MUST BE MOVED TO THE LEFT
+else if (origGamePosition=="1")
+	{
+	// MOVING THE GAME TO LEFT
+	document.getElementById("content").className = "content-left";
+	}
+
+// CHECKING IF THE GAME MUST BE MOVED TO THE RIGHT
+else if (origGamePosition=="2")
+	{
+	// MOVING THE GAME TO RIGHT
+	document.getElementById("content").className = "content-right";
+	}
+
 // LISTENING TO EVERY DOUBLE CLICK ON THE BACKGROUND
 document.getElementsByClassName("background")[0].addEventListener("dblclick", function(e)
 	{
@@ -1493,11 +1520,17 @@ document.getElementsByClassName("background")[0].addEventListener("dblclick", fu
 				{
 				// CENTERING THE GAME
 				document.getElementById("content").className = "content-centered";
+
+				// SAVING THE GAME ORIENTATION
+				setGameOrientation("tetrisOrientation", "0");
 				}
 				else
 				{
 				// MOVING THE GAME TO LEFT
 				document.getElementById("content").className = "content-left";
+
+				// SAVING THE GAME ORIENTATION
+				setGameOrientation("tetrisOrientation", "1");
 				}
 			}
 			else
@@ -1507,11 +1540,17 @@ document.getElementsByClassName("background")[0].addEventListener("dblclick", fu
 				{
 				// CENTERING THE GAME
 				document.getElementById("content").className = "content-centered";
+
+				// SAVING THE GAME ORIENTATION
+				setGameOrientation("tetrisOrientation", "0");
 				}
 				else
 				{
 				// MOVING THE GAME TO RIGHT
 				document.getElementById("content").className = "content-right";
+
+				// SAVING THE GAME ORIENTATION
+				setGameOrientation("tetrisOrientation", "2");
 				}
 			}
 		}
