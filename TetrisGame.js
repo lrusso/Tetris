@@ -1532,7 +1532,7 @@ document.getElementsByClassName("background")[0].addEventListener("click", funct
 		return;
 		}
 
-	if (Date.now() < clickTimestamp + 250)
+	if (Date.now() < clickTimestamp + 500)
 		{
 		// CLEARING THE CLICK TIMESTAMP
 		clickTimestamp = null;
