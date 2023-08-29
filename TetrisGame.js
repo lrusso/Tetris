@@ -1512,7 +1512,7 @@ var clickTimestamp = null;
 document.getElementsByClassName("background")[0].addEventListener("click", function(e)
 	{
 	// CHECKING IF IT IS NOT A MOBILE DEVICE
-	if (!isMobileDevice()==false)
+	if (isMobileDevice()==false)
 		{
 		// NO POINT GOING ANY FURTHER
 		return;
