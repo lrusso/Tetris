@@ -8,10 +8,6 @@ Tetris game in JavaScript.
 
 https://lrusso.github.io/Tetris/Tetris.htm
 
-## Note:
-
-On mobile devices you can double tap on the background (far right and left) in order to move the game to the left or right. This is useful for tablets or foldable devices.
-
 ## Based on the work of:
 
 https://bitbucket.org/jerome_renaux/tetris/src/master
