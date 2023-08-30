@@ -1485,25 +1485,39 @@ function setGamePosition(settingsName, gamePosition){try{var name = settingsName
 // GETTING THE STORED GAME POSITION
 var origGamePosition = getGamePosition("tetrisPosition");
 
+// CHECKING IF THE GAME MUST BE MOVED TO THE FAR LEFT
+if (origGamePosition=="-2")
+	{
+	// MOVING THE GAME TO THE FAR LEFT
+	document.getElementById("content").className = "content-far-left";
+	}
+
+// CHECKING IF THE GAME MUST BE MOVED TO THE LEFT
+else if (origGamePosition=="-1")
+	{
+	// MOVING THE GAME TO THE LEFT
+	document.getElementById("content").className = "content-left";
+	}
+
 // CHECKING IF THE GAME MUST BE CENTERED
-if (origGamePosition=="0")
+else if (origGamePosition=="0")
 	{
 	// CENTERING THE GAME
 	document.getElementById("content").className = "content-centered";
 	}
 
-// CHECKING IF THE GAME MUST BE MOVED TO THE LEFT
+// CHECKING IF THE GAME MUST BE MOVED TO THE RIGHT
 else if (origGamePosition=="1")
 	{
-	// MOVING THE GAME TO LEFT
-	document.getElementById("content").className = "content-left";
+	// MOVING THE GAME TO THE RIGHT
+	document.getElementById("content").className = "content-right";
 	}
 
-// CHECKING IF THE GAME MUST BE MOVED TO THE RIGHT
+// CHECKING IF THE GAME MUST BE MOVED TO THE FAR RIGHT
 else if (origGamePosition=="2")
 	{
-	// MOVING THE GAME TO RIGHT
-	document.getElementById("content").className = "content-right";
+	// MOVING THE GAME TO THE FAR RIGHT
+	document.getElementById("content").className = "content-far-right";
 	}
 
 var clickTimestamp = null;
@@ -1512,16 +1526,16 @@ var clickLastX = null;
 // LISTENING TO EVERY DOUBLE CLICK ON THE BACKGROUND
 document.getElementsByClassName("background")[0].addEventListener("click", function(event)
 	{
+	// ---------------------------------------------------------------------
+	// WORKAROUND BECAUSE SAFARI ON IOS DOESN'T SUPPORT THE DBLCLICK EVENT
+	// ---------------------------------------------------------------------
+
 	// CHECKING IF IT IS NOT A MOBILE DEVICE
 	if (isMobileDevice()==false)
 		{
 		// NO POINT GOING ANY FURTHER
 		return;
 		}
-
-	// ---------------------------------------------------------------------
-	// WORKAROUND BECAUSE SAFARI ON IOS DOESN'T SUPPORT THE DBLCLICK EVENT
-	// ---------------------------------------------------------------------
 
 	// CHECKING IF THERE WAS NO CLICK
 	if (clickTimestamp == null)
@@ -1563,39 +1577,83 @@ document.getElementsByClassName("background")[0].addEventListener("click", funct
 	// CHECKING IF THE DOUBLE CLICK WAS IN THE FIRST HALF OF THE SCREEN
 	if (event.clientX <= window.innerWidth / 2)
 		{
-		// CHECKING IF THE GAME IS ALIGNED TO THE RIGHT
-		if (document.getElementById("content").className == "content-right")
+		// CHECKING IF THE GAME IS ALIGNED TO THE FAR RIGHT
+		if (document.getElementById("content").className == "content-far-right")
 			{
-			// CENTERING THE GAME
+			// MOVING THE GAME TO THE RIGHT
+			document.getElementById("content").className = "content-right";
+
+			// SAVING THE GAME POSITION
+			setGamePosition("tetrisPosition", "-1");
+			}
+
+		// CHECKING IF THE GAME IS ALIGNED TO THE RIGHT
+		else if (document.getElementById("content").className == "content-right")
+			{
+			// MOVING THE GAME TO THE CENTER
 			document.getElementById("content").className = "content-centered";
 
 			// SAVING THE GAME POSITION
 			setGamePosition("tetrisPosition", "0");
 			}
-			else
+
+		// CHECKING IF THE GAME IS CENTERED
+		else if (document.getElementById("content").className == "content-centered")
 			{
-			// MOVING THE GAME TO LEFT
+			// MOVING THE GAME TO THE LEFT
 			document.getElementById("content").className = "content-left";
 
 			// SAVING THE GAME POSITION
-			setGamePosition("tetrisPosition", "1");
+			setGamePosition("tetrisPosition", "-1");
+			}
+
+		// CHECKING IF THE GAME IS ALIGNED TO THE LEFT
+		else if (document.getElementById("content").className == "content-left")
+			{
+			// MOVING THE GAME TO THE FAR LEFT
+			document.getElementById("content").className = "content-far-left";
+
+			// SAVING THE GAME POSITION
+			setGamePosition("tetrisPosition", "-2");
 			}
 		}
 		else
 		{
-		// CHECKING IF THE GAME IS ALIGNED TO THE LEFT
-		if (document.getElementById("content").className == "content-left")
+		// CHECKING IF THE GAME IS ALIGNED TO THE FAR LEFT
+		if (document.getElementById("content").className == "content-far-left")
 			{
-			// CENTERING THE GAME
+			// MOVING THE GAME TO THE LEFT
+			document.getElementById("content").className = "content-left";
+
+			// SAVING THE GAME POSITION
+			setGamePosition("tetrisPosition", "-1");
+			}
+
+		// CHECKING IF THE GAME IS ALIGNED TO THE LEFT
+		else if (document.getElementById("content").className == "content-left")
+			{
+			// MOVING THE GAME TO THE CENTER
 			document.getElementById("content").className = "content-centered";
 
 			// SAVING THE GAME POSITION
 			setGamePosition("tetrisPosition", "0");
 			}
-			else
+
+		// CHECKING IF THE GAME IS CENTERED
+		else if (document.getElementById("content").className == "content-centered")
 			{
-			// MOVING THE GAME TO RIGHT
+			// MOVING THE GAME TO THE RIGHT
 			document.getElementById("content").className = "content-right";
+
+			// SAVING THE GAME POSITION
+			setGamePosition("tetrisPosition", "1");
+			}
+
+		// CHECKING IF THE GAME IS ALIGNED TO THE RIGHT
+		else if (document.getElementById("content").className == "content-right")
+			{
+			// MOVING THE GAME TO THE FAR CENTER
+			document.getElementById("content").className = "content-far-right";
 
 			// SAVING THE GAME POSITION
 			setGamePosition("tetrisPosition", "2");
