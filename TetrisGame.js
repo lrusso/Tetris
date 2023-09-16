@@ -810,6 +810,46 @@ Tetris.Game.prototype = {
 		// CHECKING IF THE GAME IS PAUSED AND PREVENTING ANY ACTION
 		if (this.paused==true){return}
 
+		// CHECKING IF IT IS A MOBILE DEVICE AND IF THE USER IS PRESSING THE SCREEN
+		if (this.game.input.activePointer.isDown==true && this.isMobileDevice==true)
+			{
+			// GETTING THE FINGER POSITION
+			var newX = this.game.input.activePointer.position.x;
+			var newY = this.game.input.activePointer.position.y;
+	
+			// CHECKING IF THE USER IS NOT PRESSING THE TOOLBAR
+			if (newY > 50)
+				{
+				// GETTING THE STICK POSITION
+				var stickX = this.stick.sprite.position.x - this.stick.sprite.width / 2
+				var stickY = this.stick.sprite.position.y - this.stick.sprite.height / 2
+
+				// CALCULATING IF THE USER IS TAPPING SOMEWHERE OUT THE STICK
+				var isOutX = newX < stickX || newX > stickX + this.stick.sprite.width
+				var isOutY = newY < stickY || newY > stickY + this.stick.sprite.height
+
+				// CHECKING IF THE USER TAPPED OUT THE STICK
+				if (isOutX==true || isOutY==true)
+					{
+					// MOVING THE STICK TO THE NEW POSITION
+					this.stick.sprite.position.x = newX
+					this.stick.sprite.position.y = newY
+					this.pad.sticks.list[0].position.x = newX
+					this.pad.sticks.list[0].position.y = newY
+					this.pad.sticks.list[0].baseHitArea.x = newX
+					this.pad.sticks.list[0].baseHitArea.y = newY
+					this.pad.sticks.list[0].stickHitArea.x = newX
+					this.pad.sticks.list[0].stickHitArea.y = newY
+					this.pad.sticks.list[0].limitPoint.x = newX
+					this.pad.sticks.list[0].limitPoint.y = newY
+					this.pad.sticks.list[0].line.start.x = newX
+					this.pad.sticks.list[0].line.start.y = newY
+					this.pad.sticks.list[0].line.end.x = newX
+					this.pad.sticks.list[0].line.end.y = newY
+					}
+				}
+			}
+
 		// DETECTING THE KEYS
 		var moveUp = this.cursors.up.isDown || this.keyW.isDown;
 		var moveDown = this.cursors.down.isDown || this.keyS.isDown;
