@@ -821,31 +821,31 @@ Tetris.Game.prototype = {
 			if (newY > 50)
 				{
 				// GETTING THE STICK POSITION
-				var stickX = this.stick.sprite.position.x - this.stick.sprite.width / 2
-				var stickY = this.stick.sprite.position.y - this.stick.sprite.height / 2
+				var stickX = this.stick.sprite.position.x - this.stick.sprite.width / 3;
+				var stickY = this.stick.sprite.position.y - this.stick.sprite.height / 3;
 
 				// CALCULATING IF THE USER IS TAPPING SOMEWHERE OUT THE STICK
-				var isOutX = newX < stickX || newX > stickX + this.stick.sprite.width
-				var isOutY = newY < stickY || newY > stickY + this.stick.sprite.height
+				var isOutX = newX < stickX || newX > stickX + this.stick.sprite.width * 0.75;
+				var isOutY = newY < stickY || newY > stickY + this.stick.sprite.height * 0.75;
 
 				// CHECKING IF THE USER TAPPED OUT THE STICK
 				if (isOutX==true || isOutY==true)
 					{
 					// MOVING THE STICK TO THE NEW POSITION
-					this.stick.sprite.position.x = newX
-					this.stick.sprite.position.y = newY
-					this.pad.sticks.list[0].position.x = newX
-					this.pad.sticks.list[0].position.y = newY
-					this.pad.sticks.list[0].baseHitArea.x = newX
-					this.pad.sticks.list[0].baseHitArea.y = newY
-					this.pad.sticks.list[0].stickHitArea.x = newX
-					this.pad.sticks.list[0].stickHitArea.y = newY
-					this.pad.sticks.list[0].limitPoint.x = newX
-					this.pad.sticks.list[0].limitPoint.y = newY
-					this.pad.sticks.list[0].line.start.x = newX
-					this.pad.sticks.list[0].line.start.y = newY
-					this.pad.sticks.list[0].line.end.x = newX
-					this.pad.sticks.list[0].line.end.y = newY
+					this.stick.sprite.position.x = newX;
+					this.stick.sprite.position.y = newY;
+					this.pad.sticks.list[0].position.x = newX;
+					this.pad.sticks.list[0].position.y = newY;
+					this.pad.sticks.list[0].baseHitArea.x = newX;
+					this.pad.sticks.list[0].baseHitArea.y = newY;
+					this.pad.sticks.list[0].stickHitArea.x = newX;
+					this.pad.sticks.list[0].stickHitArea.y = newY;
+					this.pad.sticks.list[0].limitPoint.x = newX;
+					this.pad.sticks.list[0].limitPoint.y = newY;
+					this.pad.sticks.list[0].line.start.x = newX;
+					this.pad.sticks.list[0].line.start.y = newY;
+					this.pad.sticks.list[0].line.end.x = newX;
+					this.pad.sticks.list[0].line.end.y = newY;
 					}
 				}
 			}
