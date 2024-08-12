@@ -10,7 +10,7 @@ https://lrusso.github.io/Tetris/Tetris.htm
 
 ## Version with the PWA in fullscreen mode:
 
-https://lrusso.github.io/Tetris/Tetris.htm
+https://lrusso.github.io/Tetris/TetrisFS.htm
 
 ## Based on the work of:
 
