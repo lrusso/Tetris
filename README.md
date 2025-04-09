@@ -8,10 +8,6 @@ Tetris game in JavaScript.
 
 https://lrusso.github.io/Tetris/Tetris.htm
 
-## Version with the PWA in fullscreen mode:
-
-https://lrusso.github.io/Tetris/TetrisFS.htm
-
 ## Based on the work of:
 
 https://bitbucket.org/jerome_renaux/tetris/src/master
