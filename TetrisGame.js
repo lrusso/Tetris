@@ -822,7 +822,7 @@ Tetris.Game.prototype = {
 			if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag + 150)
 				{
 				// MAKING THE PIECE FALL
-				for (var i = 0; i < 50; i ++)
+				for (var i = 0; i < 50; i++)
 					{
 					// CHECKING IF THE MOVEMENT IS POSSIBLE
 					if(this.canMove(this.slide,"down") == true)
