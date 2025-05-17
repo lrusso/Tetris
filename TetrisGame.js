@@ -516,7 +516,7 @@ Tetris.Game.prototype = {
 		// CHECKING IS THE GAME IS RUNNING IN A MOBILE DEVICE
 		this.isMobileDevice = isMobileDevice();
 
-		// RESTORING ALL THE MOBILE SWIPES (JUST IN CASE)
+		// RESTORING ALL THE MOBILE SWIPE STATES (JUST IN CASE)
 		mobileMoveLeft = false;
 		mobileMoveRight = false;
 		mobileMoveUp = false;
