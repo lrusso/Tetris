@@ -819,13 +819,23 @@ Tetris.Game.prototype = {
 		if (moveDown==true)
 			{
 			// CHECKING IF THE THE ENOUGH AMOUNT OF TIME PASSED IN ORDER TO ALLOW THE MOVEMENT
-			if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag)
+			if (this.getCurrentTime()-this.currentMovementTimerDown > this.movementLag + 150)
 				{
-				// CHECKING IF THE MOVEMENT IS POSSIBLE
-				if(this.canMove(this.slide,"down")==true)
+				// MAKING THE PIECE FALL
+				for (var i = 0; i < 50; i ++)
 					{
-					// MOVING THE PIECE
-					this.move(this.slide,this.slideCenter,"down",1);
+					// CHECKING IF THE MOVEMENT IS POSSIBLE
+					if(this.canMove(this.slide,"down") == true)
+						{
+						// MOVING THE PIECE
+						this.move(this.slide,this.slideCenter,"down",1);
+						}
+						else
+						{
+						// CREATING THE NEXT PIECE
+						this.fall();
+						break;
+						}
 					}
 
 				// RESETTING THE TIME COUNTER FOR THE DOWN KEY
