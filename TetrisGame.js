@@ -317,6 +317,12 @@ Tetris.Menu.prototype = {
 
 	toggleSound: function()
 		{
+		// RESTORING ALL THE MOBILE SWIPE STATES (JUST IN CASE)
+		mobileMoveLeft = false;
+		mobileMoveRight = false;
+		mobileMoveUp = false;
+		mobileMoveDown = false;
+
 		// REJECTING ANY SLIDE AND LONG PRESS EVENT - BUGFIX FOR SAFARI ON IOS FOR ENABLING THE AUDIO CONTEXT
 		if (Math.abs(this.game.input.activePointer.position.x-this.clickPositionX)>=25){this.clickTimestamp=null;return;}
 		if (Math.abs(this.game.input.activePointer.position.y-this.clickPositionY)>=25){this.clickTimestamp=null;return;}
@@ -1202,6 +1208,12 @@ Tetris.Game.prototype = {
 
 	pauseGame: function()
 		{
+		// RESTORING ALL THE MOBILE SWIPE STATES (JUST IN CASE)
+		mobileMoveLeft = false;
+		mobileMoveRight = false;
+		mobileMoveUp = false;
+		mobileMoveDown = false;
+
 		// SHOWING THE GAME RESUME HANDLER BACKGROUND AND ICON
 		this.resumeHandler.visible = true;
 		this.resumeHandlerSprite.visible = true;
@@ -1219,6 +1231,12 @@ Tetris.Game.prototype = {
 
 	resumeGame: function()
 		{
+		// RESTORING ALL THE MOBILE SWIPE STATES (JUST IN CASE)
+		mobileMoveLeft = false;
+		mobileMoveRight = false;
+		mobileMoveUp = false;
+		mobileMoveDown = false;
+
 		// SHOWING THE GAME PAUSE HANDLER BACKGROUND AND ICON
 		this.pauseHandler.visible = true;
 		this.pauseHandlerSprite.visible = true;
