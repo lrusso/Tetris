@@ -1511,13 +1511,13 @@ function handleGesture()
 		}
 	}
 
-window.addEventListener("touchstart", function(event)
+document.addEventListener("touchstart", function(event)
 	{
 	touchstartX = event.changedTouches[0].screenX;
 	touchstartY = event.changedTouches[0].screenY;
 	}, false);
 
-window.addEventListener("touchend", function(event)
+document.addEventListener("touchend", function(event)
 	{
 	touchendX = event.changedTouches[0].screenX;
 	touchendY = event.changedTouches[0].screenY;
