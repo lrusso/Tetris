@@ -416,7 +416,6 @@ Tetris.Game = function (game)
 	this.currentMovementTimerLeft = null;
 	this.currentMovementTimerRight = null;
 
-	this.isMobileDevice = null;
 	this.pauseLayer = false;
 	this.pauseHandler = null;
 	this.pauseHandlerSprite = null;
@@ -493,7 +492,6 @@ Tetris.Game.prototype = {
 		this.currentMovementTimerLeft = 0;
 		this.currentMovementTimerRight = 0;
 
-		this.isMobileDevice = null;
 		this.pauseLayer = false;
 		this.pauseHandler = null;
 		this.pauseHandlerSprite = null;
@@ -519,9 +517,6 @@ Tetris.Game.prototype = {
 
 	create: function()
 		{
-		// CHECKING IS THE GAME IS RUNNING IN A MOBILE DEVICE
-		this.isMobileDevice = isMobileDevice();
-
 		// RESTORING ALL THE MOBILE SWIPE STATES (JUST IN CASE)
 		mobileMoveLeft = false;
 		mobileMoveRight = false;
@@ -1335,23 +1330,11 @@ Tetris.Game.prototype = {
 		this.toastText.height = 24.5;
 		this.toastText.position.x = game.width / 2 - this.toastText.width / 2;
 
-		// CHECKING IF IT IS A MOBILE DEVICE
-		if (this.isMobileDevice==true)
-			{
-			// MOVING DOWN THE TOAST TEXT
-			this.toastText.position.y = game.height - this.toastText.height - 238;
+		// MOVING DOWN THE TOAST TEXT
+		this.toastText.position.y = game.height - this.toastText.height - 88;
 
-			// DRAWING THE TOAST SHADOW
-			this.toastShadow.drawRoundedRect(game.width / 2 - this.toastText.width / 2 - 10, game.height - 273.5, this.toastText.width + 20, 42, 10);
-			}
-			else
-			{
-			// MOVING DOWN THE TOAST TEXT
-			this.toastText.position.y = game.height - this.toastText.height - 88;
-
-			// DRAWING THE TOAST SHADOW
-			this.toastShadow.drawRoundedRect(game.width / 2 - this.toastText.width / 2 - 10, game.height - 123.5, this.toastText.width + 20, 42, 10);
-			}
+		// DRAWING THE TOAST SHADOW
+		this.toastShadow.drawRoundedRect(game.width / 2 - this.toastText.width / 2 - 10, game.height - 123.5, this.toastText.width + 20, 42, 10);
 
 		// WAITING 2000 MS
 		game.time.events.add(2000, function()
