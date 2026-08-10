@@ -1,11 +1,11 @@
 const filesToCache = [
   "Tetris.htm",
-  "Tetris.json",
   "Tetris.png",
   "TetrisFavIcon_16x16.png",
   "TetrisFavIcon_192x192.png",
   "TetrisFavIcon_512x512.png",
-  "TetrisShare.png"
+  "TetrisShare.png",
+  "manifest.json"
 ]
 
 const staticCacheName = "tetris-v1"
