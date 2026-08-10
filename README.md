@@ -4,7 +4,7 @@ Tetris game in JavaScript.
 
 ![alt screenshot](https://raw.githubusercontent.com/lrusso/Tetris/master/Tetris.png)
 
-## Web:
+## Website:
 
 https://lrusso.github.io/Tetris/Tetris.htm
 
