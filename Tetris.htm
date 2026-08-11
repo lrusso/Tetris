@@ -792,7 +792,10 @@
           game.world.setBounds(0, -64, 600, 608)
 
           // adding the board image
-          game.add.tileSprite(0, 0, 320, 608, "imageGameBoard")
+          // the webgl of some android devices loses the color of the bottom
+          // right vertex, which turns the fill into a diagonal gradient, so
+          // the rectangle is oversized to push that corner off the viewport
+          game.add.tileSprite(0, 0, 320 * 4, 608 * 4, "imageGameBoard")
 
           // adding the game pause handler background
           this.pauseHandler = game.add.graphics()
