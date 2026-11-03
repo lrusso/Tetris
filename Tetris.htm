@@ -1785,6 +1785,19 @@
         // hiding the loading spinner
         document.querySelector(".pleasewait").style.display = "none"
 
+        // letting the browser handle its own shortcuts
+        // phaser cancels every keydown of a captured key without checking the
+        // modifiers, so this runs first (capture phase) and hides those from it
+        window.addEventListener(
+          "keydown",
+          function (event) {
+            if (event.metaKey || event.ctrlKey || event.altKey) {
+              event.stopImmediatePropagation()
+            }
+          },
+          true
+        )
+
         // creating the game instance
         var config = {
           width: 320,
